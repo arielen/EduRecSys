@@ -1,0 +1,52 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title_suffix %}
+  {% translate 'List Tests' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container mb-4">
+    {% if not tests %}
+      <div class="d-grid">Пока нет ни одного теста</div>
+    {% else %}
+      <div class="row">
+        {% for t in tests %}
+          {% if t.live or user.is_staff %}
+            <div class="col-md-4">
+              <div class="card text-black">
+                {% if t.image %}
+                  {% image t.image fill-500x300 as img %}
+                  <img src="{{ img.url }}" class="card-img" alt="{{ t.title }}" />
+                {% else %}
+                  <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
+                {% endif %}
+                <div class="card-img-overlay">
+                  <h5 class="card-title">{{ t.title }}</h5>
+                  <a href="{% url 'test' t.slug %}" class="btn btn-outline-primary">Пройти тест</a>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="col-md-4">
+              <div class="card text-black">
+                <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
+                <div class="card-img-overlay">
+                  <h5 class="card-title">{{ t.title }}</h5>
+                  {% if not t.live %}
+                    <p class="text-danger">Тест не опубликован</p>
+                  {% elif not user.is_staff %}
+                    <p class="text-danger">Доступ запрещен</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

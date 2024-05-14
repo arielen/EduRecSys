@@ -1,0 +1,125 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block custom_style %}
+  <style>
+    .card-img-overlay {
+      background-color: rgba(0, 0, 0, 0.5); /* Темный фон при наведении */
+      opacity: 0; /* Изначально описание скрыто */
+      transition: opacity 0.5s; /* Плавное появление */
+    }
+    .card:hover .card-img-overlay {
+      opacity: 1; /* Описание появляется при наведении */
+    }
+  </style>
+{% endblock %}
+{% block title %}
+  {% translate 'Profile' %}
+{% endblock %}
+{% block title_suffix %}
+  {{ user.last_name }} - {{ user.first_name }}
+{% endblock %}
+
+{% block content %}
+  <div class="container mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          {% if user.photo %}
+            <img src="user.photo.link" alt="Профильное изображение" class="card-img-top" />
+          {% else %}
+            <img src="{% static 'images/default_image_profile.jpg' %}" alt="Профильное изображение" class="card-img-top" />
+          {% endif %}
+          <div class="card-body">
+            <h1 class="card-title">{{ user.last_name }}</h1>
+            <h2 class="card-subtitle mb-2 text-muted">{{ user.first_name }}</h2>
+            <p class="card-text">
+              {{ user.student_profile.about|default:''|safe }} {% lorem 1 b random %}
+            </p>
+            <a href="{% url 'profile' %}" class="btn btn-primary me-2"><i class="fa-solid fa-user-pen"></i> Редактировать профиль</a>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fas fa-map-marker-alt"></i> {{ user.student_profile.city|default:'' }} Название города
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-school"></i> {{ user.student_profile.school|default:'' }} Название школы
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-user-graduate"></i> Класс: {{ user.student_profile.classNumber|default:'' }}
+            </li>
+            <li class="list-group-item">
+              {% if user.student_profile.sex %}
+                <i class="fas fa-mars"></i> Мужской
+              {% else %}
+                <i class="fas fa-venus"></i> Женский
+              {% endif %}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-clock"></i> {{ user.student_profile.startYear|default:'' }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <h1>Мои курсы</h1>
+        {% if courses %}
+          <!-- ========== Карусель курсов ========== -->
+          <div class="container mt-5">
+            <div id="olympiadCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for course in courses %}
+                  <!-- Используем 'forloop.first' для активации первого элемента -->
+                  <div class="carousel-item {% if forloop.first %}{% endif %}">
+                    <div class="card-group">
+                      {% for item in course %}
+                        <div class="card">
+                          <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" height="150" />
+                          <div class="card-img-overlay">
+                            {{ item }}
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <!-- Контролы для перелистывания -->
+              <button class="carousel-control-prev" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущая</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следущая</span>
+              </button>
+            </div>
+          </div>
+        {% else %}
+          <p>У вас пока нет ни одного курса</p>
+        {% endif %}
+
+        <h1>Пройденные тесты</h1>
+        <div>
+          {% lorem 3 p random %}
+        </div>
+
+        <p>Описание профиля</p>
+        <ul class="list-group">
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}

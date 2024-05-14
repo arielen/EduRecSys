@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+  {% translate 'Login Form' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Форма авторизации</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Адрес электронной почты</label>
+        <input type="email" class="form-control" id="username" name="username" inputmode="email" autocomplete="on" required />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password" required />
+      </div>
+      {% if form.errors %}
+        <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load wagtailcore_tags %}
+
+{% block title_suffix %}
+  {% translate 'Page About Site' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <!-- ========== Наименование теста ========== -->
+    <h1 class="mb-4">Тестирование "{{ page.title }}"</h1>
+
+    <!-- ========== Вводный текст для тестирования ========== -->
+    <div class="mb-4">{{ page.intro|richtext }}</div>
+
+    <!-- ========== Форма для ввода ответов пользоватлей на тест ========== -->
+    <form id="quizForm" method="post" onsubmit="return showNextQuestion(event)">
+      {% csrf_token %}
+      <div class="question-section">
+        {% for question in questions %}
+          {% with question_number=forloop.counter %}
+            <div class="question card mb-4" style="display: none;">
+              <div class="card-body">
+                <!-- ========== Текст вопроса ========== -->
+                <div>
+                  <h1 class="mb-3">Вопрос № {{ question_number }}</h1>
+                  <h3 class="mb-3">{{ question.question_text|richtext }}</h3>
+                </div>
+                <div>
+                  {% if question.type_answer == 'input' %}
+                    <label for="{{ question.answers.all.first.id }}">Введите верный ответ:</label>
+                    <input type="text" id="{{ question.answers.all.first.id }}" name="question-input-{{ question.id }}" class="form-control" />
+                  {% elif question.type_answer == 'checkbox' %}
+                    {% for answer in question.answers.all %}
+                      <div class="form-check">
+                        <input type="checkbox" id="{{ answer.id }}" name="question-checkbox-{{ question.id }}-{{ answer.id }}" value="{{ answer.answer_text|striptags }}" class="form-check-input" />
+                        <label for="{{ answer.id }}" class="form-check-label">{{ answer.answer_text|striptags }}</label>
+                      </div>
+                    {% endfor %}
+                  {% elif question.type_answer == 'radio' %}
+                    {% for answer in question.answers.all %}
+                      <div class="form-check">
+                        <input type="radio" id="{{ answer.id }}" name="question-radio-{{ question.id }}" value="{{ answer.answer_text|striptags }}" class="form-check-input" />
+                        <label for="{{ answer.id }}" class="form-check-label">{{ answer.answer_text|striptags }}</label>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <p>Что-то не так</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </div>
+
+  <script>
+    let currentQuestionIndex = 0
+    const questions = document.querySelectorAll('.question')
+    
+    // Show the first question when the page loads
+    questions[currentQuestionIndex].style.display = 'block'
+    
+    function showNextQuestion(event) {
+      event.preventDefault()
+      questions[currentQuestionIndex].style.display = 'none'
+      currentQuestionIndex++
+      if (currentQuestionIndex < questions.length) {
+        questions[currentQuestionIndex].style.display = 'block'
+      } else {
+        // Submit the form if all questions are answered
+        document.getElementById('quizForm').submit()
+      }
+      return false
+    }
+  </script>
+{% endblock %}

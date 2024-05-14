@@ -1,0 +1,112 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block custom_style %}
+  <style>
+    .card-img-overlay {
+      background-color: rgba(0, 0, 0, 0.5); /* Темный фон при наведении */
+      opacity: 0; /* Изначально описание скрыто */
+      transition: opacity 0.5s; /* Плавное появление */
+    }
+    .card:hover .card-img-overlay {
+      opacity: 1; /* Описание появляется при наведении */
+    }
+  </style>
+{% endblock %}
+{% block title %}
+  {% translate 'Home' %}
+{% endblock %}
+{% block title_suffix %}
+  {% translate 'Page home' %}
+{% endblock %}
+
+{% block content %}
+  {% if not user.is_authenticated %}
+    <div class="container-fluid">
+      <div class="row vh-100 d-flex justify-content-center align-items-center">
+        <div class="col-8 text-center">
+          <h3 class="title-sm animate__animated animate__fadeInUp" data-animate-style="fadeinup" data-animate-group="yes" data-animate-order="1" field="title">Конструктор будущего</h3>
+          <p class="descr-xs animate__animated animate__fadeInUp" data-animate-style="fadeinup" data-animate-group="yes" data-animate-order="2" data-animate-delay="0.3" field="descr">Наши услуги направлены на помощь ученикам с 5 по 11 класс в выборе подходящих для них олимпиад, учитывая их уникальные способности и интересы. Это поможет им в дальнейшем успешно поступить в университет.</p>
+          <img class="screenshot img-fluid" src="https://static.tildacdn.info/tild6437-3761-4563-a365-386633386265/photo.PNG" imgfield="img2" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid py-5 bg-light">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h2>Чем полезны олимпиады?</h2>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-4">
+          <img src="https://static.tildacdn.info/lib/icons/tilda/prise.svg" class="w-25" alt="" />
+          <h3>Поступление в ВУЗ без вступительных испытаний</h3>
+        </div>
+        <div class="col-4">
+          <img src="https://static.tildacdn.info/lib/icons/tilda/medal_prize_star.svg" class="w-25" alt="" />
+          <h3>100 баллов к предмету ЕГЭ при поступлении</h3>
+        </div>
+        <div class="col-4">
+          <img src="https://static.tildacdn.info/lib/icons/tilda/envelope_invitation_star.svg" class="w-25" alt="" />
+          <h3>Дополнительные баллы ЕГЭ при поступлении</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <a href="https://www.mos.ru/otvet-obrazovanie/kak-prinyat-uchastie-v-shkolnoy-olimpiade/" target="_blank" class="btn btn-primary rounded-pill">Узнать больше</a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <!-- ========== Карусель олимпиад ========== -->
+  <div class="container mt-5">
+    <div id="olympiadCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for card in cards %}
+          <!-- Используем 'forloop.first' для активации первого элемента -->
+          <div class="carousel-item {% if forloop.first %}{% endif %}">
+            <div class="card-group">
+              {% for item in card %}
+                <div class="card">
+                  <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" height="150" />
+                  <div class="card-img-overlay">
+                    {{ item }}
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- Контролы для перелистывания -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущая</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следущая</span>
+      </button>
+    </div>
+  </div>
+  <!-- ========== Список дисциплин ========== -->
+  <div class="container mt-5">
+    <h2 class="mb-3">{% translate 'Дисциплины' %}</h2>
+    <div class="row">
+      {% for discipline in disciplines %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ discipline.lessonName }}</h5>
+              <p class="card-text">{{ discipline.description }}</p>
+              {% comment %} <a href="{% url 'discipline_detail' discipline.slug %}" class="btn btn-primary">{% translate 'Подробнее' %}</a> {% endcomment %}
+              <a href="/" class="btn btn-primary">{% translate 'Подробнее' %}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

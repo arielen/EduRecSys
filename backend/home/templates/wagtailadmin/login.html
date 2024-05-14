@@ -1,0 +1,7 @@
+{% extends "wagtailadmin/login.html" %}
+{% load i18n %}
+
+{% block branding_login %}{% translate "Sign in to EduRecSys" %}{% endblock %}
+{% block login_form %}
+    {{ block.super }}
+{% endblock %}

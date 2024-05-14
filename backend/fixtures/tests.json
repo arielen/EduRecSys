@@ -1,0 +1,32 @@
+[
+	{
+		"model": "home.test",
+		"pk": 1,
+		"fields": {
+			"image": null,
+			"intro": "<p data-block-key=\"zqrgx\">Предъявляется 5 заданий, у каждого имеется поле ответов (к сожалению, других карточек на креативность нет), если вводится верное слово (оно может быть частью предложения) - присваивается 1 балл.</p>",
+			"softSkill": 1,
+			"thank_you_text": ""
+		}
+	},
+	{
+		"model": "home.test",
+		"pk": 2,
+		"fields": {
+			"image": null,
+			"intro": "",
+			"softSkill": 2,
+			"thank_you_text": ""
+		}
+	},
+	{
+		"model": "home.test",
+		"pk": 3,
+		"fields": {
+			"image": 18,
+			"intro": "",
+			"softSkill": 3,
+			"thank_you_text": ""
+		}
+	}
+]
