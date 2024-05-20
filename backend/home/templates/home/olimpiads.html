@@ -1,0 +1,36 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title_suffix %}
+  {% translate 'List Tests' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container mb-4">
+    {% if not olimpiads %}
+      <div class="d-grid">Пока нет ни одной олимпиады</div>
+    {% else %}
+      <div class="row">
+        {% for olimpiad in olimpiads %}
+          <div class="col-md-4">
+            <div class="card text-black">
+              {% if olimpiad.image %}
+                {% image olimpiad.image fill - 500 x300 as img %}
+                <img src="{{ img.url }}" class="card-img" alt="{{ t.title }}" />
+              {% else %}
+                <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
+              {% endif %}
+              <div class="card-img-overlay">
+                <h5 class="card-title">{{ olimpiad.name }}</h5>
+                <a href="{% url "olimpiad" pk=olimpiad.pk %}" class="btn btn-outline-primary">Подробнее</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

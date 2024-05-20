@@ -1,0 +1,81 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title_suffix %}
+  {% translate 'List Tests' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>{{ olimpiad.name }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <strong>Ссылка:</strong> <a href="{{ olimpiad.link }}">{{ olimpiad.link }}</a>
+        </p>
+        <p>
+          <strong>Описание олимпиады:</strong> {{ olimpiad.info|richtext }}
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <strong>Уровень сложности олимпиады:</strong> {{ olimpiad.difficultyLevel }}
+        </p>
+        <p>
+          <strong>Уровень олимпиады согласно приказа Минобрнауки №823 от 28.08.2023:</strong> {{ olimpiad.difficultyLevelMinObr }}
+        </p>
+      </div>
+    </div>
+
+    <!-- InlinePanels -->
+    <div class="row">
+      <div class="col-md-6">
+        {% for base_lesson in olimpiad.baseolimpiadlesson.all %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Базовый школьный предмет: {{ base_lesson.lesson }}</h5>
+              <!-- Uncomment the following lines if needed -->
+              <!--  <p class="card-text">Min Avg Mark For 3 Years: {{ base_lesson.minAvgMarkFor3Years }}</p>
+              <p class="card-text">Interest: {{ base_lesson.interest }}</p>
+              <p class="card-text">Min Avg Rezult: {{ base_lesson.minAvgRezult }}</p>  -->
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="col-md-6">
+        {% for additional_lesson in olimpiad.additionalolimpiadlesson.all %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Дополнительный школьный предмет: {{ additional_lesson.lesson }}</h5>
+              <!-- Uncomment the following lines if needed -->
+              <!--  <p class="card-text">Min Avg Mark For 3 Years: {{ additional_lesson.minAvgMarkFor3Years }}</p>
+              <p class="card-text">Interest: {{ additional_lesson.interest }}</p>
+              <p class="card-text">Min Avg Rezult: {{ additional_lesson.minAvgRezult }}</p>  -->
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Uncomment the following code if needed -->
+    <!--  <div class="row">
+      {% for softskill in olimpiad.olimpiadsoftskill.all %}
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Soft Skill: {{ softskill.ss }}</h5>
+              <p class="card-text">Min Rezult: {{ softskill.minRezult }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>  -->
+  </div>
+{% endblock %}

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",  # Убирать при хосте без SSL
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -175,17 +175,17 @@ WAGTAIL_SITE_NAME = "backend"
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {
-    # "default": {
-    #     "BACKEND": "wagtail.search.backends.database",
-    # }
-    'default': {
-        'BACKEND': 'wagtail.search.backends.elasticsearch8',
-        'URLS': ['https://localhost:9200'],
-        'INDEX': 'wagtail',
-        'TIMEOUT': 5,
-        'OPTIONS': {},
-        'INDEX_SETTINGS': {},
+    "default": {
+        "BACKEND": "wagtail.search.backends.database",
     }
+    # 'default': {
+    #     'BACKEND': 'wagtail.search.backends.elasticsearch8',
+    #     'URLS': ['https://localhost:9200'],
+    #     'INDEX': 'wagtail',
+    #     'TIMEOUT': 5,
+    #     'OPTIONS': {},
+    #     'INDEX_SETTINGS': {},
+    # }
 }
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
@@ -208,3 +208,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'home.settings.EmailBackend'  # логика для входа по email
 ]
+
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False

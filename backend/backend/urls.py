@@ -47,6 +47,9 @@ urlpatterns = [
 
     path("django-admin/", admin.site.urls),
 
+    # Custom Wagtail
+    path("admin/home/olimpiad/import/",
+         home_views.OlimpiadAdminImportView.as_view(), name="olimpiad-import"),
 
     # Wagtail
     path("admin/", include(wagtailadmin_urls)),
@@ -70,8 +73,12 @@ urlpatterns = [
     path("test/", home_views.AllTestView.as_view(), name="test-all"),
     path("test/<str:slug>/", home_views.TestView.as_view(), name="test"),
 
+    path("olimpiads/", home_views.OlimpiadsView.as_view(), name="olimpiads"),
+    path("olimpiads/<int:pk>/", home_views.OlimpiadView.as_view(), name="olimpiad"),
+
     path("register/", home_views.RegisterView.as_view(), name="register"),
     path("profile/", home_views.ProfileView.as_view(), name="profile"),
+    path("profile/edit/", home_views.ProfileEditView.as_view(), name="profile-edit"),
     path("contact/", home_views.Contact.as_view(), name="contact"),
 ]
 

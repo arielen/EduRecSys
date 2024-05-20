@@ -1,0 +1,17 @@
+{% extends 'modeladmin/index.html' %}
+{% load static %}
+
+{% block content %}
+  {{ block.super }}
+  <script>
+    // Создаем элемент кнопки
+    var newButton = document.createElement('a')
+    newButton.setAttribute('href', '{% url "olimpiad-import" %}')
+    newButton.setAttribute('class', 'button bicolor button--icon')
+    newButton.innerHTML = '<span class="icon-wrapper"><svg class="icon icon-plus icon" aria-hidden="true"><use href="#icon-plus"></use></svg></span>Импорт XLSX'
+    // Находим элемент, после которого нужно вставить кнопку
+    var existingButton = document.querySelector('.right .w-dropdown-button')
+    // Вставляем новую кнопку после существующей кнопки
+    existingButton.parentNode.insertBefore(newButton, existingButton.nextSibling)
+  </script>
+{% endblock %}

@@ -25,38 +25,36 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card">
-          {% if user.photo %}
-            <img src="user.photo.link" alt="Профильное изображение" class="card-img-top" />
+          {% if user.student_profile.photo %}
+            <img src="{{ user.student_profile.photo.url }}" alt="Профильное изображение" class="card-img-top" />
           {% else %}
             <img src="{% static 'images/default_image_profile.jpg' %}" alt="Профильное изображение" class="card-img-top" />
           {% endif %}
           <div class="card-body">
             <h1 class="card-title">{{ user.last_name }}</h1>
             <h2 class="card-subtitle mb-2 text-muted">{{ user.first_name }}</h2>
-            <p class="card-text">
-              {{ user.student_profile.about|default:''|safe }} {% lorem 1 b random %}
-            </p>
-            <a href="{% url 'profile' %}" class="btn btn-primary me-2"><i class="fa-solid fa-user-pen"></i> Редактировать профиль</a>
+            <p class="card-text">{{ user.student_profile.about|default:''|safe }}</p>
+            <a href="{% url 'profile-edit' %}" class="btn btn-primary me-2"><i class="fa-solid fa-user-pen"></i> Редактировать профиль</a>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <i class="fas fa-map-marker-alt"></i> {{ user.student_profile.city|default:'' }} Название города
+              <i class="fas fa-map-marker-alt" style="padding-right: 1em;"></i>Город: {{ user.student_profile.city|default:'' }}
             </li>
             <li class="list-group-item">
-              <i class="fas fa-school"></i> {{ user.student_profile.school|default:'' }} Название школы
+              <i class="fas fa-school" style="padding-right: 0.45em;"></i>Школа: {{ user.student_profile.school|default:'Не указано' }}
             </li>
             <li class="list-group-item">
-              <i class="fas fa-user-graduate"></i> Класс: {{ user.student_profile.classNumber|default:'' }}
+              <i class="fas fa-user-graduate" style="padding-right: 0.65em;"></i>Класс: {{ user.student_profile.classNumber|default:'Не указан' }}
             </li>
             <li class="list-group-item">
               {% if user.student_profile.sex %}
-                <i class="fas fa-mars"></i> Мужской
+                <i class="fas fa-mars" style="padding-right: 0.7em;"></i>Мужской
               {% else %}
-                <i class="fas fa-venus"></i> Женский
+                <i class="fas fa-venus" style="padding-right: 0.7em;"></i>Женский
               {% endif %}
             </li>
             <li class="list-group-item">
-              <i class="fas fa-clock"></i> {{ user.student_profile.startYear|default:'' }}
+              <i class="fas fa-clock" style="padding-right: 0.5em;"></i>Начало обучения: {{ user.student_profile.startYear|default:'Не указано' }}
             </li>
           </ul>
         </div>
@@ -102,23 +100,30 @@
           <p>У вас пока нет ни одного курса</p>
         {% endif %}
 
-        <h1>Пройденные тесты</h1>
-        <div>
-          {% lorem 3 p random %}
-        </div>
-
-        <p>Описание профиля</p>
+        <h1>Мои навыки</h1>
         <ul class="list-group">
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
+          {% if softskills %}
+            {% for softskill in softskills %}
+              <li class="list-group-item">{{ softskill.softskill }} : {{ softskill.softSkillResult }}</li>
+            {% endfor %}
+          {% else %}
+            <li class="list-group-item">Нет истории о навыках</li>
+          {% endif %}
         </ul>
+
+        <h1>Пройденные тесты</h1>
+        <p style="font-size: 2em;">PLACEHOLDER</p>
+        {% comment %} <ul class="list-group">
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+          <li class="list-group-item">
+            {% lorem 1 b random %}
+          </li>
+        </ul> {% endcomment %}
       </div>
     </div>
   </div>

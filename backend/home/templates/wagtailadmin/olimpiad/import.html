@@ -1,0 +1,50 @@
+{% extends 'wagtailadmin/base.html' %}
+{% load i18n %}
+{% load l10n %}
+{% load wagtailadmin_tags %}
+{% block titletag %}
+  {% trans 'Add multiple documents' %}
+{% endblock %}
+
+{% block content %}
+  <header class="w-header">
+    <div class="row">
+      <div class="left">
+        <div class="col">
+          <h1 class="w-header__title" id="header-title">
+            <svg class="icon icon-doc-full-inverse w-header__glyph" aria-hidden="true">
+              <use href="#icon-doc-full-inverse"></use>
+            </svg>Импортировать данные из CSV/XLSX/JSON
+          </h1>
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </header>
+  <div class="nice-padding">
+    <div class="drop-zone">
+      <p>Перетяните файл в эту область для немедленной загрузки.</p>
+      <p>Поддерживаемые форматы: CSV, XLSX и JSON. Максимальный размер файла: 10,0&nbsp;МБ.</p>
+      <form method="post" action="{% url 'olimpiad-import' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="replace-file-input">
+          <button class="button bicolor button--icon">
+            <span class="icon-wrapper">
+              <svg class="icon icon-plus icon" aria-hidden="false">
+                <use href="#icon-plus"></use>
+              </svg>
+            </span>
+            Или выберите на вашем компьютере
+          </button>
+          <input type="file" name="file" required accept=".csv, .xlsx, application/json" class="input" id="fileupload" />
+        </div>
+        <br />
+        <button type="submit" class="button" style="text-align: center;">Отправить данные</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  {{ block.super }}
+{% endblock %}

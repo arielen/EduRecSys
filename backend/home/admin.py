@@ -1,16 +1,19 @@
+import csv
+from django.http import HttpRequest, HttpResponse
+from django.db.models.options import Options
+from django.db.models import QuerySet
 from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
 )
 
 from .models import (
-    City, Lesson, Olimpiad, SoftSkill
+    City, Lesson, Olimpiad, SoftSkill,
 )
 
 
 class SoftSkillAdmin(ModelAdmin):
     model = SoftSkill
     menu_label = "Навыки"
-    menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ('name',)
@@ -20,8 +23,6 @@ class SoftSkillAdmin(ModelAdmin):
 class LessonAdmin(ModelAdmin):
     model = Lesson
     menu_label = 'Дисциплины'  # название для меню
-    # menu_icon = 'book'  # иконка из набора иконок Wagtail
-    menu_order = 201  # порядок в меню
     add_to_settings_menu = False  # не добавлять в меню настроек
     exclude_from_explorer = False  # не исключать из исследователя сайта
     list_display = ('lessonName',)
@@ -31,18 +32,19 @@ class LessonAdmin(ModelAdmin):
 class OlimpiadAdmin(ModelAdmin):
     model = Olimpiad
     menu_label = 'Олимпиады'
-    # menu_icon = 'group'
-    menu_order = 202
+    menu_icon = 'doc-full-inverse'
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ('name', 'link',)
+    list_display = ('name',  'difficultyLevel',
+                    'difficultyLevelMinObr')
     search_fields = ('name', 'link')
+    list_export = ('name', 'link', 'difficultyLevel', 'difficultyLevelMinObr')
+    index_template_name = 'wagtailadmin/olimpiad/index.html'
 
 
 class CityAdmin(ModelAdmin):
     model = City
     menu_label = "Города"
-    menu_order = 203
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ('cityName',)
@@ -52,7 +54,11 @@ class CityAdmin(ModelAdmin):
 class CustomGroupModelAdmin(ModelAdminGroup):
     menu_label = 'Добавление данных'
     menu_order = 200
-    items = (SoftSkillAdmin, LessonAdmin, OlimpiadAdmin, CityAdmin)
+    items = (
+        OlimpiadAdmin,
+        SoftSkillAdmin, LessonAdmin,
+        CityAdmin,
+    )
 
 
 # Регистрация ModelAdmins

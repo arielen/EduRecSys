@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import Sum
-from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 from modelcluster.fields import ParentalKey
@@ -74,18 +73,10 @@ class Lesson(models.Model):
         return self.lessonName
 
 
-def create_student_profile(cls):
-    """Декоратор для создания экземпляра модели StudentProfile для каждого User"""
-
-    def create_profile(sender, instance, created, **kwargs):
-        if created:
-            StudentProfile.objects.create(user=instance)
-
-    post_save.connect(create_profile, sender=cls)
-    return cls
+def student_profile_photo(instance: 'StudentProfile', filename: str) -> str:
+    return "student_profile/{0}/{1}".format(instance.user.username, filename)
 
 
-@create_student_profile
 class StudentProfile(models.Model):
     class Meta:
         verbose_name = "Пользователь"
@@ -124,6 +115,10 @@ class StudentProfile(models.Model):
         verbose_name='Год начала обучения',
         blank=True, null=True
     )
+    photo = models.ImageField(
+        upload_to=student_profile_photo, verbose_name='Фото',
+        blank=True, null=True
+    )
 
     def __str__(self):
         return f"{self.user.username}'s student profile"
@@ -160,7 +155,7 @@ class Mark(models.Model):
         return f"{self.user} {self.lesson} {self.mark} {self.class_}"
 
 
-class Olimpiad(models.Model):
+class Olimpiad(ClusterableModel):
     """
     Модель для хранения информации о конкретной олимпиаде.
 
@@ -174,34 +169,141 @@ class Olimpiad(models.Model):
 
     name = models.CharField(max_length=50, verbose_name='Название олимпиады')
     link = models.URLField(verbose_name='Ссылка на олимпиаду')
+    info = RichTextField(verbose_name='Описание олимпиады',
+                         blank=True, null=True)
+    difficultyLevel = models.IntegerField(
+        verbose_name='Уровень сложности олимпиады',
+        choices=[(i, i) for i in range(1, 11)],
+        blank=True, null=True
+    )
+    difficultyLevelMinObr = models.IntegerField(
+        verbose_name='Уровень олимпиады согласно приказа Минобрнауки №823 от 28.08.2023',
+        choices=[
+            (0, 'Не является перечневой'),
+            (1, '1 уровень'),
+            (2, '2 уровень'),
+            (3, '3 уровень'),
+        ],
+        blank=True, null=True
+    )
 
     def __str__(self) -> str:
         return self.name
 
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('link'),
+        FieldPanel('info'),
+        FieldPanel('difficultyLevel'),
+        FieldPanel('difficultyLevelMinObr'),
+        InlinePanel(
+            'baseolimpiadlesson', label="Базовый школьный предмет",
+            panels=[
+                FieldPanel('lesson'),
+                FieldPanel('minAvgMarkFor3Years'),
+                FieldPanel('interest'),
+                FieldPanel('minAvgRezult'),
+            ],
+            max_num=1
+        ),
+        InlinePanel(
+            'additionalolimpiadlesson', label="Дополнительный школьный предмет",
+            panels=[
+                FieldPanel('lesson'),
+                FieldPanel('minAvgMarkFor3Years'),
+                FieldPanel('interest'),
+                FieldPanel('minAvgRezult'),
+            ],
+            max_num=3
+        ),
+        InlinePanel(
+            'olimpiadsoftskill', label="SoftSkills необходимые для рекомендации",
+            panels=[
+                FieldPanel('ss'),
+                FieldPanel('minRezult'),
+            ],
+            max_num=7
+        ),
+    ]
 
-class OlimpiadLesson(models.Model):
-    """
-    Модель для хранения информации о связи олимпиады и дисциплины.
 
-    Fields:
-        lesson: Урок.
-        olimpiad: Олимпиада.
-        minRezult: Минимальный результат, который должен получить
-            пользователь для прохождения олимпиады по данной дисциплине.
-    """
+class BaseOlimpiadLesson(models.Model):
     class Meta:
-        verbose_name = "Олимпиада по дисциплине"
-        verbose_name_plural = "Олимпиады по дисциплинам"
+        verbose_name = "Базовый школьный предмет"
+        verbose_name_plural = "Базовые школьные предметы"
 
     lesson = models.ForeignKey(
-        Lesson, on_delete=models.CASCADE, verbose_name='Урок'
+        Lesson, on_delete=models.CASCADE, verbose_name='Базовый школьный предмет'
     )
-    olimpiad = models.ForeignKey(
-        Olimpiad, on_delete=models.CASCADE, verbose_name='Олимпиада'
+    olimpiad = ParentalKey(
+        Olimpiad, on_delete=models.CASCADE,
+        related_name='baseolimpiadlesson'
     )
-    minRezult = models.IntegerField(
-        verbose_name='Минимальный резултат',
-        default=0
+    minAvgMarkFor3Years = models.IntegerField(
+        verbose_name='Мин. среднее значение ГОДОВЫХ оценок школьника по предмету за 3 прошедших учебных года',
+        choices=[(i, i) for i in range(1, 6)],
+    )
+    interest = models.IntegerField(
+        verbose_name='На сколько школьник должен быть НА ТЕКУЩИЙ МОМЕНТ заинтересован в предмете, по указанной шкале',
+        choices=[
+            (1, "1 - предмет совершенно не интересен"),
+            (2, "2 - нейтральное отношение"),
+            (3, "3 - предмет интересен"),
+            (4, "4 - предмет интересен, изучаю дополнительно"),
+            (5, "5 - предмет интересен, участвую в олимпиадах, конкурсах и др."),
+            (0, "0 - НЕ ПРИМЕНИМО"),
+        ],
+    )
+    minAvgRezult = models.IntegerField(
+        verbose_name="Мин. средний показатель результатов участия в олимпиадах различных уровней по предмету на текущий момент, который необходим, чтобы система могла рекомендовать олимпиаду",
+        choices=[
+            (1, "1 - не участвовал в олимпиадах и конкурсах"),
+            (2, "2 - участвовал в школьных и городских, но не побеждал "),
+            (3, "3 - побеждал в школьных и городских / участвовал в региональных"),
+            (4, "4 - побеждал в региональных / участвовал в федеральных конкурсах, в том числе Перечневых Олимпиадах"),
+            (5, "5 - побеждал в федеральных конкурсах или Перечневых Олимпиадах"),
+            (0, "0 - НЕ ПРИМЕНИМО")
+        ],
+    )
+
+
+class AdditionalOlimpiadLesson(models.Model):
+    class Meta:
+        verbose_name = "Дополнительный школьный предмет"
+        verbose_name_plural = "Дополнительные школьные предметы"
+
+    lesson = models.ForeignKey(
+        Lesson, on_delete=models.CASCADE, verbose_name='Дополнительный школьный предмет'
+    )
+    olimpiad = ParentalKey(
+        Olimpiad, on_delete=models.CASCADE,
+        related_name='additionalolimpiadlesson'
+    )
+    minAvgMarkFor3Years = models.IntegerField(
+        verbose_name='Мин. среднее значение ГОДОВЫХ оценок школьника по предмету за 3 прошедших учебных года',
+        choices=[(i, i) for i in range(1, 6)],
+    )
+    interest = models.IntegerField(
+        verbose_name='На сколько школьник должен быть НА ТЕКУЩИЙ МОМЕНТ заинтересован в предмете, по указанной шкале',
+        choices=[
+            (1, "1 - предмет совершенно не интересен"),
+            (2, "2 - нейтральное отношение"),
+            (3, "3 - предмет интересен"),
+            (4, "4 - предмет интересен, изучаю дополнительно"),
+            (5, "5 - предмет интересен, участвую в олимпиадах, конкурсах и др."),
+            (0, "0 - НЕ ПРИМЕНИМО"),
+        ],
+    )
+    minAvgRezult = models.IntegerField(
+        verbose_name="Мин. средний показатель результатов участия в олимпиадах различных уровней по предмету на текущий момент, который необходим, чтобы система могла рекомендовать олимпиаду",
+        choices=[
+            (1, "1 - не участвовал в олимпиадах и конкурсах"),
+            (2, "2 - участвовал в школьных и городских, но не побеждал "),
+            (3, "3 - побеждал в школьных и городских / участвовал в региональных"),
+            (4, "4 - побеждал в региональных / участвовал в федеральных конкурсах, в том числе Перечневых Олимпиадах"),
+            (5, "5 - побеждал в федеральных конкурсах или Перечневых Олимпиадах"),
+            (0, "0 - НЕ ПРИМЕНИМО")
+        ],
     )
 
 
@@ -314,13 +416,21 @@ class OlimpiadSS(models.Model):
         SoftSkill,
         on_delete=models.CASCADE, verbose_name='Softskill'
     )
-    olimpiad = models.ForeignKey(
-        Olimpiad, on_delete=models.CASCADE, verbose_name='Олимпиада'
+    olimpiad = ParentalKey(
+        Olimpiad, on_delete=models.CASCADE, verbose_name='Олимпиада',
+        related_name='olimpiadsoftskill'
     )
     minRezult = models.IntegerField(
         verbose_name='Минимальный резултат по оценке softskill для '
         'предположительного успеха в олимпиаде',
-        default=0
+        choices=[
+            (0, "0 - навык отсутствует"),
+            (1, "1 - низкий"),
+            (2, "2 - ниже среднего"),
+            (3, "3 - средний"),
+            (4, "4 - выше среднего"),
+            (5, "5 - высокий")
+        ]
     )
 
 
@@ -333,7 +443,7 @@ class Test(Page):
 
     image = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, on_delete=models.SET_NULL,
+        null=True, blank=True, on_delete=models.SET_NULL,
         verbose_name="Изображение для страницы теста",
         related_name='+',
     )
@@ -361,7 +471,7 @@ class Test(Page):
         verbose_name = "Тест"
         verbose_name_plural = "Тесты"
 
-    @property
+    @ property
     def count_scores(self) -> int:
         """
         Количество очков возможных для максимального набора за
@@ -401,7 +511,7 @@ class Question(ClusterableModel):
         ),
     ]
 
-    @property
+    @ property
     def count_answers(self) -> int:
         """
         Количество ответов на вопрос.
@@ -410,7 +520,7 @@ class Question(ClusterableModel):
         """
         return self.answers.count()
 
-    @property
+    @ property
     def count_correct_answers(self) -> int:
         """
         Количество правильных ответов на вопрос.
@@ -419,7 +529,7 @@ class Question(ClusterableModel):
         """
         return self.answers.filter(correct=True).count()
 
-    @property
+    @ property
     def type_answer(self) -> str:
         """
         Тип ответа на вопрос.

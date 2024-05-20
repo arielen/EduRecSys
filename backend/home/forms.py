@@ -1,5 +1,6 @@
+from typing import Any
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
@@ -145,3 +146,91 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ProfileEditForm(UserChangeForm):
+    about = forms.CharField(
+        label='О себе',
+        required=False,
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'rows': 5}
+        )
+    )
+    first_name = forms.CharField(
+        label='Имя',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control'}
+        )
+    )
+    last_name = forms.CharField(
+        label='Фамилия',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control'}
+        )
+    )
+    city = forms.ModelChoiceField(
+        empty_label="Выберите город",
+        queryset=City.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    school = forms.ModelChoiceField(
+        empty_label="Выберите школу",
+        queryset=School.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    classNumber = forms.ChoiceField(
+        help_text='Выберите класс',
+        choices=[(i, i) for i in range(1, 12)],
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    sex = forms.ChoiceField(
+        label='Пол',
+        choices=[(True, 'Мужской'), (False, 'Женский')],
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    startYear = forms.DateField(
+        label='Год начала обучения',
+        help_text='Выберите год начала обучения',
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Укажите год начала обучения'
+            }
+        ),
+    )
+    photo = forms.ImageField(
+        label='Фото',
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = StudentProfile
+        fields = (
+            'first_name', 'last_name',
+            'about',
+            'city', 'school', 'classNumber', 'sex', 'startYear', 'photo'
+        )
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super(ProfileEditForm, self).__init__(*args, **kwargs)
+        user = kwargs['instance'].user
+        self.fields['first_name'].initial = user.first_name
+        self.fields['last_name'].initial = user.last_name
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['user'] = user
+        try:
+            context['profile'] = StudentProfile.objects.get(user=user)
+        except StudentProfile.DoesNotExist:
+            context['profile'] = None
+        return context

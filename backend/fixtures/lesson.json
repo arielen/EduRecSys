@@ -1,0 +1,128 @@
+[
+  {
+    "model": "home.lesson",
+    "pk": 1,
+    "fields": {
+      "lessonName": "Алгебра"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 2,
+    "fields": {
+      "lessonName": "Геометрия"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 3,
+    "fields": {
+      "lessonName": "Вероятность и статистика"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 4,
+    "fields": {
+      "lessonName": "Информатика"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 5,
+    "fields": {
+      "lessonName": "География"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 6,
+    "fields": {
+      "lessonName": "Биология"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 7,
+    "fields": {
+      "lessonName": "Физика"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 8,
+    "fields": {
+      "lessonName": "Химия"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 9,
+    "fields": {
+      "lessonName": "ОБЖ"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 10,
+    "fields": {
+      "lessonName": "История"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 11,
+    "fields": {
+      "lessonName": "Обществознание"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 12,
+    "fields": {
+      "lessonName": "Русский язык"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 13,
+    "fields": {
+      "lessonName": "Литература"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 14,
+    "fields": {
+      "lessonName": "Иностранный язык (Анлийский)"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 15,
+    "fields": {
+      "lessonName": "Иностранный язык (немецкий)"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 16,
+    "fields": {
+      "lessonName": "Технология"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 17,
+    "fields": {
+      "lessonName": "Физическая культура"
+    }
+  },
+  {
+    "model": "home.lesson",
+    "pk": 18,
+    "fields": {
+      "lessonName": "Изобразительное искусство"
+    }
+  }
+]
