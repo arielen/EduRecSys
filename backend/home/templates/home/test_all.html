@@ -25,8 +25,8 @@
                   <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
                 {% endif %}
                 <div class="card-img-overlay">
-                  <h5 class="card-title">{{ t.title }}</h5>
-                  <a href="{% url 'test' t.slug %}" class="btn btn-outline-primary">Пройти тест</a>
+                  <h5 class="card-title">{{ t.softSkill }}</h5>
+                  <a href="{% url 'test' t.pk %}" class="btn btn-outline-primary">Пройти тест</a>
                 </div>
               </div>
             </div>

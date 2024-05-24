@@ -47,7 +47,7 @@ urlpatterns = [
 
     path("django-admin/", admin.site.urls),
 
-    # Custom Wagtail
+    # Custom Wagtail for added XLSX, JSON and CSV import to olimpiads
     path("admin/home/olimpiad/import/",
          home_views.OlimpiadAdminImportView.as_view(), name="olimpiad-import"),
 
@@ -56,30 +56,27 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
 
-
-    # path("video/", home_views.VideoView.as_view(), name="video"),
-    # path("olimpiads/", home_views.OlimpiadsView.as_view(), name="olimpiads"),
-    # path("olimpiads/<str:slug>/", home_views.OlimpiadView.as_view(), name="olimpiad"),
-    # path("disciplines/", home_views.DisciplinesView.as_view(), name="disciplines"),
-    # path("disciplines/<str:slug>/", home_views.DisciplineView.as_view(), name="discipline"),
-    # path("profile/edit/", home_views.ProfileEditView.as_view(), name="profile-edit"),
-    # path("profile/success/", home_views.ProfileSuccessView.as_view(), name="profile-success"),
-    # path("profile/softskills/", home_views.ProfileSoftskillsView.as_view(), name="profile-softskills"),
-    # path("profile/additional-info/", home_views.ProfileAdditionalInfoView.as_view(), name="profile-additional-info"),
-
     # Home
     path("", home_views.Home.as_view(), name="home"),
+    path("register/", home_views.RegisterView.as_view(), name="register"),
+    path("contact/", home_views.Contact.as_view(), name="contact"),
 
     path("test/", home_views.AllTestView.as_view(), name="test-all"),
-    path("test/<str:slug>/", home_views.TestView.as_view(), name="test"),
+    path("test/<int:pk>/", home_views.TestView.as_view(), name="test"),
 
     path("olimpiads/", home_views.OlimpiadsView.as_view(), name="olimpiads"),
-    path("olimpiads/<int:pk>/", home_views.OlimpiadView.as_view(), name="olimpiad"),
+    path("olimpiads/<int:pk>/", home_views.OlimpiadView.as_view(),
+         name="olimpiad"),
 
-    path("register/", home_views.RegisterView.as_view(), name="register"),
     path("profile/", home_views.ProfileView.as_view(), name="profile"),
-    path("profile/edit/", home_views.ProfileEditView.as_view(), name="profile-edit"),
-    path("contact/", home_views.Contact.as_view(), name="contact"),
+    path("profile/edit/", home_views.ProfileEditView.as_view(),
+         name="profile-edit"),
+
+    #     path("disciplines/", home_views.DisciplinesView.as_view(),
+    #          name="disciplines"),
+    #     path("disciplines/<str:slug>/",
+    #          home_views.DisciplineView.as_view(), name="discipline"),
+    # path("video/", home_views.VideoView.as_view(), name="video"),
 ]
 
 

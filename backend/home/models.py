@@ -438,8 +438,10 @@ class OlimpiadSS(models.Model):
 # ----------------
 
 
-class Test(Page):
-    template = "home/test_preview.html"
+class SoftSkillTest(ClusterableModel):
+    class Meta:
+        verbose_name = "Тест"
+        verbose_name_plural = "Тесты"
 
     image = models.ForeignKey(
         'wagtailimages.Image',
@@ -452,10 +454,8 @@ class Test(Page):
         SoftSkill, on_delete=models.SET_NULL, verbose_name="Навык",
         blank=True, null=True
     )
-    thank_you_text = RichTextField(
-        verbose_name="Благодарственный текст", blank=True)
 
-    content_panels = Page.content_panels + [
+    panels = [
         FieldPanel('softSkill'),
         FieldPanel('image'),
         FieldPanel('intro'),
@@ -464,14 +464,12 @@ class Test(Page):
             label="Вопрос",
             help_text="Вопросы должны быть в порядке добавления. Поменять их местами не удастся."
         ),
-        FieldPanel('thank_you_text'),
     ]
 
-    class Meta:
-        verbose_name = "Тест"
-        verbose_name_plural = "Тесты"
+    def __str__(self) -> str:
+        return self.softSkill.name
 
-    @ property
+    @property
     def count_scores(self) -> int:
         """
         Количество очков возможных для максимального набора за
@@ -483,7 +481,7 @@ class Test(Page):
 
 
 class Question(ClusterableModel):
-    test = ParentalKey(Test, on_delete=models.CASCADE,
+    test = ParentalKey(SoftSkillTest, on_delete=models.CASCADE,
                        related_name='questions')
     question_text = RichTextField(verbose_name="Текст вопроса", blank=True)
     time_limit = models.PositiveIntegerField(
@@ -572,7 +570,7 @@ class SoftSkillUser(models.Model):
         verbose_name='Пользователь'
     )
     softskill = models.ForeignKey(
-        Test, on_delete=models.CASCADE,
+        SoftSkillTest, on_delete=models.CASCADE,
         verbose_name='Softskill'
     )
     """

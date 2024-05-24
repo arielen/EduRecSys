@@ -81,15 +81,15 @@
                 {% for item in card %}
                   <div class="col">
                     <div class="card h-100">
-                      <a href="{% url 'test' slug=item.slug %}" class="text-decoration-none">
+                      <a href="{% url 'test' pk=item.pk %}" class="text-decoration-none">
                         {% if item.image %}
                           {% image item.image fill - 500 x300 as img %}
-                          <img src="{{ img.url }}" class="card-img-top" alt="{{ item.title }}" />
+                          <img src="{{ img.url }}" class="card-img-top" alt="{{ item.softSkill }}" />
                         {% else %}
                           <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img-top" alt="{{ item.title }}" />
                         {% endif %}
                         <div class="card-body">
-                          <h5 class="card-title">{{ item.title }}</h5>
+                          <h5 class="card-title">{{ item.softSkill }}</h5>
                           <p class="card-text">{{ item.description }}</p>
                         </div>
                       </a>

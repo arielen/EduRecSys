@@ -1,0 +1,1017 @@
+[
+{
+    "model": "home.softskilltest",
+    "pk": 1,
+    "fields": {
+        "image": null,
+        "intro": "<p data-block-key=\"60e1r\"><b>Добро пожаловать</b> на тест по изучению <i>креативности</i> учащегося! </p><p data-block-key=\"embiq\"><b>Креативность</b> - это важное качество, способность мыслить нестандартно, находить новые решения и воплощать свои идеи в жизнь. В этом тесте мы предлагаем вам ряд вопросов и заданий, которые помогут определить ваш уровень креативности.</p><p data-block-key=\"3n5r6\">Пожалуйста, ответьте на вопросы, используя input-поля, где вы сможете ввести свои ответы вручную. Будьте творческими и не бойтесь проявлять свою уникальность! Ваша способность к креативному мышлению поможет вам не только в учебе, но и в повседневной жизни.</p><p data-block-key=\"5gbc5\">Желаем вам удачи и надеемся, что этот тест поможет вам лучше понять и развить вашу креативность. Начнем!</p>",
+        "softSkill": 1
+    }
+},
+{
+    "model": "home.softskilltest",
+    "pk": 2,
+    "fields": {
+        "image": null,
+        "intro": "<p data-block-key=\"svr7z\"><b>Добро пожаловать</b> на тест по изучению <i>самоорганизации</i> учащегося!</p><p data-block-key=\"7s45r\"><b>Самоорганизация</b> - это способность эффективно планировать свою деятельность, управлять временем, устанавливать цели и достигать их. В этом тесте мы предлагаем вам ряд вопросов и заданий, которые помогут определить ваш уровень самоорганизации. Пожалуйста, отмечайте галочками (checkbox) и выбирайте один из вариантов (radiobutton) в ответах на вопросы. Будьте внимательны и честны в своих ответах, это поможет вам лучше понять свои сильные и слабые стороны в организации своей деятельности. Готовы начать тестирование своей самоорганизации? Поехали!</p>",
+        "softSkill": 2
+    }
+},
+{
+    "model": "home.softskilltest",
+    "pk": 3,
+    "fields": {
+        "image": null,
+        "intro": "<p data-block-key=\"2t2tk\"><b>Добро пожаловать</b> на тест по изучению <i>критического мышления</i> учащегося!</p><p data-block-key=\"alp4b\"><b>Критическое мышление</b> - это способность анализировать информацию, делать обоснованные выводы, задавать вопросы и вырабатывать собственные мнения. В этом тесте мы предлагаем вам ряд вопросов и заданий, которые помогут определить ваш уровень критического мышления.</p><p data-block-key=\"evep2\">Пожалуйста, выбирайте один из вариантов ответа в виде radiobutton в ответах на вопросы.</p><p data-block-key=\"1au2a\">Будьте внимательны и аналитичны в своих ответах, это поможет вам развить свои навыки критического мышления.</p><p data-block-key=\"51fqh\">Готовы начать тестирование своего критического мышления? Поехали!</p>",
+        "softSkill": 3
+    }
+},
+{
+    "model": "home.softskilltest",
+    "pk": 4,
+    "fields": {
+        "image": null,
+        "intro": "<p data-block-key=\"4qamm\"><b>Добро пожаловать</b> на тест по изучению <i>логического мышления</i> учащегося!</p><p data-block-key=\"33srm\"><b>Логическое мышление</b> - это способность анализировать информацию, находить закономерности, строить логические цепочки рассуждений и принимать обоснованные решения.</p><p data-block-key=\"4sel2\">В этом тесте мы предлагаем вам ряд вопросов и заданий, которые помогут определить ваш уровень логического мышления.</p><p data-block-key=\"87k6f\">Пожалуйста, выбирайте один из вариантов ответа в виде radiobutton в ответах на вопросы. Будьте внимательны и логичны в своих рассуждениях, это поможет вам развить свои навыки логического мышления.</p><p data-block-key=\"f555o\">Готовы начать тестирование своего логического мышления? Поехали!</p>",
+        "softSkill": 5
+    }
+},
+{
+    "model": "home.softskilltest",
+    "pk": 5,
+    "fields": {
+        "image": null,
+        "intro": "<p data-block-key=\"l2lem\"><b>Добро пожаловать</b> на тест по изучению <i>эмоционального интеллекта</i> учащегося!</p><p data-block-key=\"blnof\"><b>Эмоциональный интеллект</b> - это способность понимать, управлять и выражать свои эмоции, а также эмпатия и умение взаимодействовать с окружающими людьми.</p><p data-block-key=\"6fj8l\">В этом тесте мы предлагаем вам ряд вопросов и заданий, которые помогут определить ваш уровень эмоционального интеллекта. Пожалуйста, выберите один верный ответ из предложенных вариантов, представленных в виде radiobutton.</p><p data-block-key=\"7sdlf\">Ваша чувствительность к эмоциям и умение управлять ими важны для успешного общения и взаимодействия с окружающими.</p><p data-block-key=\"2j8pu\">Готовы начать тестирование вашего эмоционального интеллекта? Давайте начнем!</p>",
+        "softSkill": 6
+    }
+},
+{
+    "model": "home.question",
+    "pk": 1,
+    "fields": {
+        "test": 1,
+        "question_text": "<p data-block-key=\"w7isb\">Внимательно посмотрите на картинку и скажите, кто на ней изображён?</p><embed embedtype=\"image\" format=\"left\" id=\"1\" alt=\"\"/><p data-block-key=\"54ipn\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 2,
+    "fields": {
+        "test": 1,
+        "question_text": "<p data-block-key=\"w7isb\">Производитель обуви принял странное на первый взгляд решение: все правые ботинки начали производить в одном городе, а все левые - в другом. Зачем это было нужно?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"2\" alt=\"\"/><p data-block-key=\"32eot\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 3,
+    "fields": {
+        "test": 1,
+        "question_text": "<p data-block-key=\"w7isb\">Монета упала на дно колодца. Придумай несколько способов достать её.</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"3\" alt=\"\"/><p data-block-key=\"9dkcu\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 4,
+    "fields": {
+        "test": 1,
+        "question_text": "<p data-block-key=\"w7isb\">В прошлом веке Япония закупила за рубежом огромное количество битого стекла в деревянных ящиках. Но когда им пришел товар, всё стекло они высыпали в море. Зачем им понадобилась такая сделка?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"4\" alt=\"\"/><p data-block-key=\"5akje\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 5,
+    "fields": {
+        "test": 1,
+        "question_text": "<p data-block-key=\"w7isb\">Первые поколения европейских поселенцев на территории Америки время от времени оставляли освоенные территории и продвигались вглубь континента. Перед уходом они всегда сжигали все деревянные постройки. Для чего?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"5\" alt=\"\"/><p data-block-key=\"l85e\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 6,
+    "fields": {
+        "test": 2,
+        "question_text": "<p data-block-key=\"3uu9o\">У Насти накопилось много важных дел, которые никак не отложить. Какие из них Настя может делегировать, то есть поручить кому-то другому?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"6\" alt=\"\"/><p data-block-key=\"3cpt\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 7,
+    "fields": {
+        "test": 2,
+        "question_text": "<p data-block-key=\"3uu9o\">Ребята долго делали домашнее задание и решили передохнуть. Какие варианты отдыха наиболее эффективны?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"7\" alt=\"\"/><p data-block-key=\"1uujq\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 8,
+    "fields": {
+        "test": 2,
+        "question_text": "<p data-block-key=\"3uu9o\">Завтра у Милены важная контрольная по математике. Обычно она ложиться спать в 10 вечера. Сегодня Милена вернется домой только в 8 вечера. Как ей лучше поступить?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"8\" alt=\"\"/><p data-block-key=\"2gpp4\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 9,
+    "fields": {
+        "test": 2,
+        "question_text": "<p data-block-key=\"3uu9o\">Ренат пригласил Стёпу к себе на день рождения к 14:00. Стёпе до выхода нужно пожарить оладушки, позавтракать почистить клетку хомяка, упаковать подарок, сделать домашку по математике, а ещё хотелось бы посмотреть видеоурок по программированию. Как лучше выполнить эти дела?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"9\" alt=\"\"/><p data-block-key=\"d73ik\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 10,
+    "fields": {
+        "test": 2,
+        "question_text": "<p data-block-key=\"3uu9o\">Полина составила список дел после школы на сегодня и отменила время на их выполнение. Что из этого списка придётся перенести на другой день?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"10\" alt=\"\"/><p data-block-key=\"5538i\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 11,
+    "fields": {
+        "test": 3,
+        "question_text": "<p data-block-key=\"8dlif\">В чём заблуждается мама Стёпы?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"11\" alt=\"\"/><p data-block-key=\"pfrv\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 12,
+    "fields": {
+        "test": 3,
+        "question_text": "<p data-block-key=\"8dlif\">Вы подбросили монету четыре раза, и каждый раз выпадал орёл. Какова вероятность, что в пятый раз тоже выпадет орёл?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 13,
+    "fields": {
+        "test": 3,
+        "question_text": "<p data-block-key=\"8dlif\">В статье о здоровом питании автор пришёл к выводу, что много овощей, зелени и рыбы в рационе не улучшают здоровье. В подтверждение автор приводит примеры людей, которые пытались придерживаться здоровой диеты, но в итоге срывались и начинали есть ещё больше вредных продуктов. Кроме этого, они начинали испытывать психологические проблемы из-за чувства вины. А еще многие профессиональные фотомодели, спортсмены и фитнес-тренеры признаются, что у них есть любимая \"вредная\" еда, которую они включают в свой рацион. Обоснован ли вывод автора?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 14,
+    "fields": {
+        "test": 3,
+        "question_text": "<p data-block-key=\"8dlif\">Согласно статистике, с течением времени уменьшается численность пиратов, а также увеличивается средняя температура на Земле. Динамики этих процессов идеально соответствуют друг другу. Как пираты и глобальное потепление влияют друг на друга?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"12\" alt=\"\"/><p data-block-key=\"1bu0n\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 15,
+    "fields": {
+        "test": 3,
+        "question_text": "<p data-block-key=\"8dlif\">Прочитайте цепочку рассуждений и найдите в ней ошибку: \"Как известно, тяжелые предметы падают быстрее легких. Соединим верёвкой два предмета: тяжёлый и лёгкий. Если тяжёлые предметы падают быстрее, то легкий предмет будет замедлять падение тяжёлого. Но раз эти предметы соединены и стали одним ещё более тяжелым предметом, то теперь они вместе, наоборот, должны падать быстрее. Мы пришли к противоречию, а значит, тяжёлые и лёгкие предметы должны падать с одинаковой скоростью\"</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 16,
+    "fields": {
+        "test": 4,
+        "question_text": "<p data-block-key=\"crxcm\">Рабочий день длится с 9 до 18. Если утром сотрудники опаздывают, то вечером задерживаются до 18:30. А если приходят раньше, то уходят в 17:30. Если сотрудники приходят к началу рабочего дня, то уходят в 18. В 18:15 в офисе 5 сотрудников. Что может быть верно?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 17,
+    "fields": {
+        "test": 4,
+        "question_text": "<p data-block-key=\"crxcm\">В первые два месяца лета Игорь продаёт сахарную вату, а с июля по сентябрь он продаёт яблоки в карамели. Ещё Игорь продаёт пирожки с повидлом, но только во второй половине года. В какой из месяцев Игорь продаёт все три вида сладостей?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 18,
+    "fields": {
+        "test": 4,
+        "question_text": "<p data-block-key=\"crxcm\">На двери склада два замка. У Кости есть ключи от обоих замков. У Светы есть ключ только от первого замка, а у Влада - ключ только от второго замка. Первый замок можно открыть только в случае, если закрыт второй. Вчера склад закрывала Света.</p><p data-block-key=\"7hbv1\">Кто точно не сможет открыть склад сегодня утром?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 19,
+    "fields": {
+        "test": 4,
+        "question_text": "<p data-block-key=\"crxcm\">Врач принимает пациентов только в будние дни по чётным числам. Завтра первое июля, а послезавтра воскресенье.</p><p data-block-key=\"3kacr\">Когда врач сможет принять пациентов?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 20,
+    "fields": {
+        "test": 4,
+        "question_text": "<p data-block-key=\"crxcm\">В магазине проходит две акции: \"Скидка 20% на всё\" и \"Два одинаковых товара по цене одного\". Алексей купил 2 телевизора и сэкономил 2000 рублей. Какое из утверждений однозначно ложное?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 21,
+    "fields": {
+        "test": 5,
+        "question_text": "<p data-block-key=\"u0h5y\">На какой из фотографий Федя гордится пятёркой по математике?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"13\" alt=\"\"/><p data-block-key=\"eifdg\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 22,
+    "fields": {
+        "test": 5,
+        "question_text": "<p data-block-key=\"u0h5y\">Ты допустил ошибку и знаешь, что за это будут ругать. Как далеко нужно оказаться от собеседника, чтобы он мягче выражался и быстрее сменил гнев на милость?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"14\" alt=\"\"/><p data-block-key=\"8m0t\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 23,
+    "fields": {
+        "test": 5,
+        "question_text": "<p data-block-key=\"u0h5y\">Посмотри на картинку и скажи, что здесь может происходить?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"15\" alt=\"\"/><p data-block-key=\"7s59a\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 24,
+    "fields": {
+        "test": 5,
+        "question_text": "<p data-block-key=\"u0h5y\">Что чувствует человек слева по отношению к собеседнику?</p><embed embedtype=\"image\" format=\"fullwidth\" id=\"16\" alt=\"\"/><p data-block-key=\"cqg44\"></p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.question",
+    "pk": 25,
+    "fields": {
+        "test": 5,
+        "question_text": "<p data-block-key=\"u0h5y\">Твой друг не сдал экзамен и сильно расстроился из-за этого. Как вести себя, чтобы другу стало легче?</p>",
+        "time_limit": null,
+        "score": 1
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 1,
+    "fields": {
+        "question": 1,
+        "answer_text": "<p data-block-key=\"x2xkx\">лягушка, лошадь, жаба</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 2,
+    "fields": {
+        "question": 2,
+        "answer_text": "<p data-block-key=\"x2xkx\">вор, кража, воровство</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 3,
+    "fields": {
+        "question": 3,
+        "answer_text": "<p data-block-key=\"x2xkx\">магнит, магнитом</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 4,
+    "fields": {
+        "question": 4,
+        "answer_text": "<p data-block-key=\"x2xkx\">дерево, древесина, доски</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 5,
+    "fields": {
+        "question": 5,
+        "answer_text": "<p data-block-key=\"x2xkx\">гвозди, гвоздей</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 6,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Отвезти кота к ветеринару</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 7,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Приготовить ужин</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 8,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Навестить бабушку в больнице</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 9,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Написать сочинение по литературе</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 10,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Забрать посылку на почте</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 11,
+    "fields": {
+        "question": 6,
+        "answer_text": "<p data-block-key=\"hv159\">Купить билеты на спектакль</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 12,
+    "fields": {
+        "question": 7,
+        "answer_text": "<p data-block-key=\"hv159\">Сходить в душ</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 13,
+    "fields": {
+        "question": 7,
+        "answer_text": "<p data-block-key=\"hv159\">Поиграть в телефоне в любимую игру</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 14,
+    "fields": {
+        "question": 7,
+        "answer_text": "<p data-block-key=\"hv159\">Немного погулять во дворе</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 15,
+    "fields": {
+        "question": 7,
+        "answer_text": "<p data-block-key=\"hv159\">Почитать книжку</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 16,
+    "fields": {
+        "question": 8,
+        "answer_text": "<p data-block-key=\"hv159\">Лечь спать позже, чтобы успеть больше выучить и повторить</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 17,
+    "fields": {
+        "question": 8,
+        "answer_text": "<p data-block-key=\"hv159\">Порисовать и пойти спать в обычное время: во время рисования примеры сами вспомнятся и отложатся в памяти</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 18,
+    "fields": {
+        "question": 8,
+        "answer_text": "<p data-block-key=\"hv159\">Посвятить полчаса повторению правил и решению примеров и лечь спать в обычное время</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 19,
+    "fields": {
+        "question": 9,
+        "answer_text": "<p data-block-key=\"hv159\">Некоторые дела можно совместить: так Стёпа сэкономит время и потренирует многозадачность</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 20,
+    "fields": {
+        "question": 9,
+        "answer_text": "<p data-block-key=\"hv159\">Последовательно, потому что делать несколько вещей одновременно непродуктивно.</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 21,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">Выгулять Тотошку (30 мин.)</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 22,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">ДЗ на завтра (3 часа)</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 23,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">Поболтать по телефону с Дашей (30 мин.)</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 24,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">Ужин и дела перед сном (1.5 часа)</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 25,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">Почитать книгу (30 мин.)</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 26,
+    "fields": {
+        "question": 10,
+        "answer_text": "<p data-block-key=\"hv159\">Научиться печь ватрушки (1.5 часа)</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 27,
+    "fields": {
+        "question": 11,
+        "answer_text": "<p data-block-key=\"gkmzx\">Она не заблуждается, страх наказания - лучшая мотивация</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 28,
+    "fields": {
+        "question": 11,
+        "answer_text": "<p data-block-key=\"gkmzx\">Наказание может никак не влиять на последующие оценки</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 29,
+    "fields": {
+        "question": 11,
+        "answer_text": "<p data-block-key=\"gkmzx\">Наказывать нужно не только за плохие оценки, а регулярно для профилактики</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 30,
+    "fields": {
+        "question": 11,
+        "answer_text": "<p data-block-key=\"gkmzx\">Лишать телефона - это не наказание</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 31,
+    "fields": {
+        "question": 12,
+        "answer_text": "<p data-block-key=\"gkmzx\">Более вероятно, что снова выпадет орёл, ведь предыдущие разы на этой монете выпадал орёл</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 32,
+    "fields": {
+        "question": 12,
+        "answer_text": "<p data-block-key=\"gkmzx\">Вероятность 50%, потому что у монеты две стороны, и у каждой равные шансы выпасть</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 33,
+    "fields": {
+        "question": 12,
+        "answer_text": "<p data-block-key=\"gkmzx\">Скорее всего, выпадет решка, поскольку вероятность выпадения орла 50%, а он только что выпал много раз подряд - значит, математическое ожидание выпадения решки выросло</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 34,
+    "fields": {
+        "question": 12,
+        "answer_text": "<p data-block-key=\"gkmzx\">Если перед броском сказать \\\"Орёл лети, ко мне приди\\\", то более вероятно выпадет орёл, а если \\\"Решка, выпадай без спешки\\\" - то решка</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 35,
+    "fields": {
+        "question": 13,
+        "answer_text": "<p data-block-key=\"gkmzx\">Да, хотя стоило учесть ещё и полезность яиц и творога</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 36,
+    "fields": {
+        "question": 13,
+        "answer_text": "<p data-block-key=\"gkmzx\">Да, конкретные примеры - лучшее обоснование</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 37,
+    "fields": {
+        "question": 13,
+        "answer_text": "<p data-block-key=\"gkmzx\">Нет, приведённые примеры никак не связаны со сделанным выводом</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 38,
+    "fields": {
+        "question": 13,
+        "answer_text": "<p data-block-key=\"gkmzx\">Нет, поскольку профессиональные фотомодели, спортсмены и фитнес-тренеры лгут ради популярности</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 39,
+    "fields": {
+        "question": 14,
+        "answer_text": "<p data-block-key=\"gkmzx\">Из-за потепления пиратам становится слишком жарко в южных широтах, где пролегают торговые пути</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 40,
+    "fields": {
+        "question": 14,
+        "answer_text": "<p data-block-key=\"gkmzx\">Пираты сдерживали перевозку нефти и другого ископаемого топлива, поэтому на Земле его сжигалось меньше</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 41,
+    "fields": {
+        "question": 14,
+        "answer_text": "<p data-block-key=\"gkmzx\">Численность пиратов и глобальное потепление не влияют друг на друга</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 42,
+    "fields": {
+        "question": 15,
+        "answer_text": "<p data-block-key=\"gkmzx\">Неверный начальный тезис</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 43,
+    "fields": {
+        "question": 15,
+        "answer_text": "<p data-block-key=\"gkmzx\">Соединение верёвкой не делает предметы одним целым предметом</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 44,
+    "fields": {
+        "question": 15,
+        "answer_text": "<p data-block-key=\"gkmzx\">Не конкретизировано, какие именно предметы, из-за этого возникает путаница</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 45,
+    "fields": {
+        "question": 15,
+        "answer_text": "<p data-block-key=\"gkmzx\">Неверный вывод</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 46,
+    "fields": {
+        "question": 16,
+        "answer_text": "<p data-block-key=\"14ltu\">Двое пришли вовремя, а трое опоздали</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 47,
+    "fields": {
+        "question": 16,
+        "answer_text": "<p data-block-key=\"14ltu\">Все пятеро пришли пораньше</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 48,
+    "fields": {
+        "question": 16,
+        "answer_text": "<p data-block-key=\"14ltu\">Все пятеро сотрудников опоздали</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 49,
+    "fields": {
+        "question": 16,
+        "answer_text": "<p data-block-key=\"14ltu\">Один опоздал, а остальные пришли вовремя</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 50,
+    "fields": {
+        "question": 17,
+        "answer_text": "<p data-block-key=\"14ltu\">В сентябре</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 51,
+    "fields": {
+        "question": 17,
+        "answer_text": "<p data-block-key=\"14ltu\">В июле и августе</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 52,
+    "fields": {
+        "question": 17,
+        "answer_text": "<p data-block-key=\"14ltu\">В июле</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 53,
+    "fields": {
+        "question": 17,
+        "answer_text": "<p data-block-key=\"14ltu\">Ни в один из месяцев</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 54,
+    "fields": {
+        "question": 18,
+        "answer_text": "<p data-block-key=\"14ltu\">Света и Влад по одиночке</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 55,
+    "fields": {
+        "question": 18,
+        "answer_text": "<p data-block-key=\"14ltu\">Костя</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 56,
+    "fields": {
+        "question": 18,
+        "answer_text": "<p data-block-key=\"14ltu\">Света вместе с Владом</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 57,
+    "fields": {
+        "question": 19,
+        "answer_text": "<p data-block-key=\"14ltu\">Сегодня или в следующий вторник</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 58,
+    "fields": {
+        "question": 19,
+        "answer_text": "<p data-block-key=\"14ltu\">Завтра или послезавтра</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 59,
+    "fields": {
+        "question": 19,
+        "answer_text": "<p data-block-key=\"14ltu\">В воскресенье или в следующий понедельник</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 60,
+    "fields": {
+        "question": 19,
+        "answer_text": "<p data-block-key=\"14ltu\">Только завтра</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 61,
+    "fields": {
+        "question": 20,
+        "answer_text": "<p data-block-key=\"14ltu\">Сумма покупки с учётом скидки могла составить 8000 рублей</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 62,
+    "fields": {
+        "question": 20,
+        "answer_text": "<p data-block-key=\"14ltu\">Один из телевизоров мог стоить на 2000 дороже, чем второй</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 63,
+    "fields": {
+        "question": 20,
+        "answer_text": "<p data-block-key=\"14ltu\">Сумма цен телевизоров до скидки могла быть 6000 рублей</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 64,
+    "fields": {
+        "question": 20,
+        "answer_text": "<p data-block-key=\"14ltu\">Сумма цен телевизоров до скидки могла быть 4000 рублей</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 65,
+    "fields": {
+        "question": 21,
+        "answer_text": "<p data-block-key=\"dv48l\">а</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 66,
+    "fields": {
+        "question": 21,
+        "answer_text": "<p data-block-key=\"dv48l\">б</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 67,
+    "fields": {
+        "question": 21,
+        "answer_text": "<p data-block-key=\"dv48l\">в</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 68,
+    "fields": {
+        "question": 21,
+        "answer_text": "<p data-block-key=\"dv48l\">г</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 69,
+    "fields": {
+        "question": 22,
+        "answer_text": "<p data-block-key=\"dv48l\">Лучше встать или сесть рядом</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 70,
+    "fields": {
+        "question": 22,
+        "answer_text": "<p data-block-key=\"dv48l\">Лучше держаться на расстоянии 2-3 метров</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 71,
+    "fields": {
+        "question": 22,
+        "answer_text": "<p data-block-key=\"dv48l\">Чем дальше - тем лучше</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 72,
+    "fields": {
+        "question": 23,
+        "answer_text": "<p data-block-key=\"dv48l\">Мужчина рассказывает смешную шутку</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 73,
+    "fields": {
+        "question": 23,
+        "answer_text": "<p data-block-key=\"dv48l\">Женщина старается не замечать мужчину</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 74,
+    "fields": {
+        "question": 23,
+        "answer_text": "<p data-block-key=\"dv48l\">Женщина узнаёт о чём-то опасном</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 75,
+    "fields": {
+        "question": 24,
+        "answer_text": "<p data-block-key=\"dv48l\">Он в ярости от услышанного</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 76,
+    "fields": {
+        "question": 24,
+        "answer_text": "<p data-block-key=\"dv48l\">Он презирает собеседника</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 77,
+    "fields": {
+        "question": 24,
+        "answer_text": "<p data-block-key=\"dv48l\">Он заинтересован разговором</p>",
+        "correct": true
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 78,
+    "fields": {
+        "question": 25,
+        "answer_text": "<p data-block-key=\"dv48l\">Сказать: \"Да не грусти ты, сего раскис? С другими людьми случаются неприятности и похуже! Привыкай, жизнь вообще не сахар!\"</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 79,
+    "fields": {
+        "question": 25,
+        "answer_text": "<p data-block-key=\"dv48l\">Вести себя как обычно и не обращать внимание на плохое настроение друга - погрустит и успокоится</p>",
+        "correct": false
+    }
+},
+{
+    "model": "home.answer",
+    "pk": 80,
+    "fields": {
+        "question": 25,
+        "answer_text": "<p data-block-key=\"dv48l\">Напомнить другу, что ты тоже в прошлом году завалил экзамен, но потом всё успешно пересдал</p>",
+        "correct": true
+    }
+}
+]

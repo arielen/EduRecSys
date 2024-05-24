@@ -1,3 +1,4 @@
+from collections import defaultdict
 import pandas as pd
 from .models import (
     Olimpiad, BaseOlimpiadLesson, AdditionalOlimpiadLesson, OlimpiadSS,
@@ -29,91 +30,75 @@ class Importer:
             'Критическое мышление': 'Критическое мышление',
             'Читательская грамотность': 'Читательская грамотность',
             'Логическое мышление': 'Логическое мышление',
-            # TODO: уточнить по нижним критериям
             'Эмоциональный интеллект': 'Устойчивость к стрессу (умение работать в режиме высокой неопределенности)',
             'Память': 'Управление вниманием',
         }
-        levelMinObrIdDict = {
-            '': 0,
+        levelMinObrIdDict = defaultdict(int, {
             'Не является перечневой': 0,
             '1 уровень': 1,
             '2 уровень': 2,
             '3 уровень': 3,
-        }
-        df = self.df
-        for index, row in df.iterrows():
-            difficultyLevel = row[olimpiadDict['difficultyLevel']
-                                  ] if row[olimpiadDict['difficultyLevel']] else 0
-            difficultyLevelMinObr = levelMinObrIdDict.get(
-                row[olimpiadDict['difficultyLevelMinObr']])
-            olimpiad, created = Olimpiad.objects.get_or_create(
+        })
+
+        def get_or_create_olimpiad(row) -> Olimpiad:
+            difficultyLevel = row.get(olimpiadDict['difficultyLevel'], 0)
+            difficultyLevelMinObr = levelMinObrIdDict[
+                row.get(olimpiadDict['difficultyLevelMinObr'], 0)
+            ]
+            olimpiad, created = Olimpiad.objects.update_or_create(
                 name=row[olimpiadDict['name']],
-                info=row[olimpiadDict['info']],
-                difficultyLevel=difficultyLevel,
-                difficultyLevelMinObr=difficultyLevelMinObr,
+                defaults={
+                    'info': row[olimpiadDict['info']],
+                    'difficultyLevel': difficultyLevel,
+                    'difficultyLevelMinObr': difficultyLevelMinObr,
+                }
             )
             if created:
                 print("Created: ", olimpiad)
-                olimpiad.save()
+            return olimpiad
+
+        def create_or_update_softskills(olimpiad: Olimpiad, row) -> None:
             for key, value in softSkillDict.items():
-                softskill = SoftSkill.objects.get(name=key)
-                if softskill:
-                    minRezult = row[value] if row[value] else 0
-                    olimpiad_ss, created_olimpiad_ss = OlimpiadSS.objects.get_or_create(
+                try:
+                    softskill = SoftSkill.objects.get(name=key)
+                    minRezult = row.get(value, 0)
+                    OlimpiadSS.objects.update_or_create(
                         olimpiad=olimpiad,
                         ss=softskill,
-                        minRezult=minRezult
+                        defaults={'minRezult': minRezult}
                     )
-                    if created_olimpiad_ss:
-                        olimpiad_ss.save()
-                    elif olimpiad_ss.minRezult != minRezult:
-                        olimpiad_ss.minRezult = minRezult
-                        olimpiad_ss.save()
+                except SoftSkill.DoesNotExist:
+                    print(f"SoftSkill {key} does not exist")
 
-            # Заполняем базовые школьные предметы
+        def create_or_update_base_lessons(olimpiad: Olimpiad, row) -> None:
             baseOlimpiadLesson = {
                 'lesson': 'Наименование базового школьного предмета',
                 'minAvgMarkFor3Years': 'Мин. среднее значение ГОДОВЫХ оценок школьника по предмету за 3 прошедших учебных года, которое нужно, чтобы система могла порекомендовать олимпиаду школьнику',
                 'interest': 'На сколько школьник должен быть НА ТЕКУЩИЙ МОМЕНТ заинтересован в предмете, по указанной шкале, чтобы система могла порекоменовать ему участие в рассматриваемой олимпиаде?',
                 'minAvgRezult': 'Мин. средний показатель результатов участия в олимпиадах различных уровней по предмету на текущий момент, который необходим, чтобы система могла рекомендовать олимпиаду'
             }
-            lesson = Lesson.objects.get(
-                lessonName=row[baseOlimpiadLesson['lesson']])
+            lesson = Lesson.objects.filter(
+                lessonName=row[baseOlimpiadLesson['lesson']]).first()
             if lesson:
-                minAvgMarkFor3Years = row[baseOlimpiadLesson['minAvgMarkFor3Years']
-                                          ] if row[baseOlimpiadLesson['minAvgMarkFor3Years']] else 0
-                interest = row[baseOlimpiadLesson['interest']
-                               ] if row[baseOlimpiadLesson['interest']] else 0
-                minAvgRezult = row[baseOlimpiadLesson['minAvgRezult']
-                                   ] if row[baseOlimpiadLesson['minAvgRezult']] else 0
-                base_olimpiad_lesson, created_base_olimpiad_lesson = BaseOlimpiadLesson.objects.get_or_create(
+                base_olimpiad_lesson, created_base_olimpiad_lesson = BaseOlimpiadLesson.objects.update_or_create(
                     lesson=lesson,
                     olimpiad=olimpiad,
-                    minAvgMarkFor3Years=minAvgMarkFor3Years,
-                    interest=interest,
-                    minAvgRezult=minAvgRezult
+                    defaults={
+                        'minAvgMarkFor3Years': row.get(baseOlimpiadLesson['minAvgMarkFor3Years'], 0),
+                        'interest': row.get(baseOlimpiadLesson['interest'], 0),
+                        'minAvgRezult': row.get(baseOlimpiadLesson['minAvgRezult'], 0)
+                    }
                 )
                 if created_base_olimpiad_lesson:
-                    base_olimpiad_lesson.save()
-                elif base_olimpiad_lesson.minAvgMarkFor3Years != minAvgMarkFor3Years \
-                    or base_olimpiad_lesson.interest != interest \
-                        or base_olimpiad_lesson.minAvgRezult != minAvgRezult:
-                    base_olimpiad_lesson.minAvgMarkFor3Years = minAvgMarkFor3Years
-                    base_olimpiad_lesson.interest = interest
-                    base_olimpiad_lesson.minAvgRezult = minAvgRezult
-                    base_olimpiad_lesson.save()
+                    print(f"Created: {base_olimpiad_lesson}")
             else:
-                print("Lesson not found: ", row[baseOlimpiadLesson['lesson']])
+                print(f"Lesson not found: {row[baseOlimpiadLesson['lesson']]}")
 
+        def create_or_update_additional_lessons(olimpiad, row):
             additionalOlimpiadLesson = {
-                # добавляется ".1", ".2", ".3"
                 'lesson': 'Наименование школьного предмета',
-                # добавляется ".1", ".2", ".3"
                 'minAvgMarkFor3Years': 'Мин. среднее значение ГОДОВЫХ оценок школьника по предмету за 3 прошедших учебных года, которое нужно, чтобы система могла порекомендовать олимпиаду школьнику',
-                # добавляется ".1", ".2", ".3"
                 'interest': 'На сколько школьник должен быть НА ТЕКУЩИЙ МОМЕНТ заинтересован в предмете, по указанной шкале, чтобы система могла порекоменовать ему участие в рассматриваемой олимпиаде?',
-
-                # первая идет без точки, последующие ".1", ".2"
                 'minAvgRezult': 'Мин. средний показатель результатов участия в олимпиадах и конкурсах по предмету на текущий момент, который необходим, чтобы рекомендовать олимпиаду'
             }
             added_separator = {
@@ -122,33 +107,38 @@ class Importer:
                 'interest': ['.1', '.2', '.3'],
                 'minAvgRezult': ['', '.1', '.2']
             }
-            # TODO: add separator
-            for index in range(0, 3):
-                lesson = additionalOlimpiadLesson['lesson'] + \
+            for index in range(3):
+                lesson_key = additionalOlimpiadLesson['lesson'] + \
                     added_separator['lesson'][index]
-                minAvgMarkFor3Years = additionalOlimpiadLesson['minAvgMarkFor3Years'] + \
+                minAvgMarkFor3Years_key = additionalOlimpiadLesson['minAvgMarkFor3Years'] + \
                     added_separator['minAvgMarkFor3Years'][index]
-                interest = additionalOlimpiadLesson['interest'] + \
+                interest_key = additionalOlimpiadLesson['interest'] + \
                     added_separator['interest'][index]
-                minAvgRezult = additionalOlimpiadLesson['minAvgRezult'] + \
+                minAvgRezult_key = additionalOlimpiadLesson['minAvgRezult'] + \
                     added_separator['minAvgRezult'][index]
 
-                if row[lesson] != 'НЕ ПРИМЕНИМО':
-                    lesson = Lesson.objects.get(lessonName=row[lesson])
+                if row.get(lesson_key, '') != 'НЕ ПРИМЕНИМО':
+                    lesson = Lesson.objects.filter(
+                        lessonName=row[lesson_key]
+                    ).first()
                     if lesson:
-                        additional_olimpiad_lesson, created_additional_olimpiad_lesson = AdditionalOlimpiadLesson.objects.get_or_create(
+                        additional_olimpiad_lesson, created_additional_olimpiad_lesson = AdditionalOlimpiadLesson.objects.update_or_create(
                             lesson=lesson,
                             olimpiad=olimpiad,
-                            minAvgMarkFor3Years=row[minAvgMarkFor3Years],
-                            interest=row[interest],
-                            minAvgRezult=row[minAvgRezult]
+                            defaults={
+                                'minAvgMarkFor3Years': row.get(minAvgMarkFor3Years_key, 0),
+                                'interest': row.get(interest_key, 0),
+                                'minAvgRezult': row.get(minAvgRezult_key, 0)
+                            }
                         )
                         if created_additional_olimpiad_lesson:
-                            additional_olimpiad_lesson.save()
-                        elif additional_olimpiad_lesson.minAvgMarkFor3Years != row[minAvgMarkFor3Years] \
-                            or additional_olimpiad_lesson.interest != row[interest] \
-                                or additional_olimpiad_lesson.minAvgRezult != row[minAvgRezult]:
-                            additional_olimpiad_lesson.minAvgMarkFor3Years = row[minAvgMarkFor3Years]
-                            additional_olimpiad_lesson.interest = row[interest]
-                            additional_olimpiad_lesson.minAvgRezult = row[minAvgRezult]
-                            additional_olimpiad_lesson.save()
+                            print(f"Created: {additional_olimpiad_lesson}")
+                    else:
+                        print(f"Lesson not found: {row[lesson_key]}")
+
+        df = self.df.fillna('')
+        for _, row in df.iterrows():
+            olimpiad = get_or_create_olimpiad(row)
+            create_or_update_softskills(olimpiad, row)
+            create_or_update_base_lessons(olimpiad, row)
+            create_or_update_additional_lessons(olimpiad, row)
