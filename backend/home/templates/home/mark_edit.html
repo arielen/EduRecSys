@@ -1,0 +1,45 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load form_tags %}
+{% block title %}
+  Редактирование оценки по предмету {{ mark.lesson }}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5 mb-5">
+    <h2 class="mb-4">Изменить оценку по дисциплине: {{ mark.lesson }}</h2>
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="form-group mb-3">
+        {{ form.mark.label_tag }}
+        {{ form.mark|add_class:'form-control' }}
+        <div class="invalid-feedback">Пожалуйста, выберите оценку.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block custom_jquery %}
+  <script>
+    // JavaScript для включения проверки форм Bootstrap
+    ;(function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener(
+          'submit',
+          function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          },
+          false
+        )
+      })
+    })()
+  </script>
+{% endblock %}

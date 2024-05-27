@@ -7,17 +7,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, HttpRequest
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView
-from django.shortcuts import redirect
+from django.views.generic import (
+    TemplateView, CreateView, ListView, UpdateView, DeleteView
+)
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import strip_tags
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 
 from typing import Any
 
 from .models import (
     Lesson, Olimpiad, StudentProfile,
-    SoftSkillTest, Answer, SoftSkillUser
+    SoftSkillTest, Answer, SoftSkillUser, Mark
 )
 
 from .utils import (
@@ -25,7 +27,7 @@ from .utils import (
 )
 
 from .forms import (
-    SignUpForm, ProfileEditForm
+    SignUpForm, ProfileEditForm,
 )
 
 
@@ -193,16 +195,35 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "home/profile.html"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
         user = self.request.user
+        context = super().get_context_data(**kwargs)
         context['user'] = user
-        try:
-            context['profile'] = StudentProfile.objects.get(user=user)
-            context['softskills'] = SoftSkillUser.objects.filter(
-                user=context['profile'])
-        except StudentProfile.DoesNotExist:
-            context['profile'] = None
-            context['softskills'] = None
+
+        # Получение профиля студента пользователя
+        profile = getattr(user, 'student_profile', None)
+        context['profile'] = profile
+
+        if profile:
+            # Получение всех мягких навыков пользователя и их идентификаторов за один запрос
+            user_softskills = SoftSkillUser.objects.filter(user=profile) \
+                .select_related('softskill')
+            user_softskills_ids = user_softskills.values_list(
+                'softskill_id', flat=True
+            )
+
+            # Прямое назначение результатов в контекст
+            context['softskills'] = user_softskills.order_by(
+                'softskill__softSkill__name')
+            # Получение всех мягких навыков и исключение тех, что у пользователя уже есть
+            context['missing_softskills'] = SoftSkillTest.objects.exclude(
+                id__in=user_softskills_ids
+            )
+
+            user_marks = Mark.objects.filter(user=profile) \
+                .order_by('lesson__lessonName') \
+                .select_related('lesson')
+            context['marks'] = user_marks
+
         return context
 
 
@@ -218,7 +239,8 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     form_class = ProfileEditForm
 
     def get_object(self, queryset=None) -> StudentProfile:
-        return self.request.user.student_profile
+        # Использование get_object_or_404 для надежности
+        return get_object_or_404(StudentProfile, user=self.request.user)
 
     def form_valid(self, form: ProfileEditForm) -> HttpResponse:
         user = self.request.user
@@ -226,6 +248,51 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         user.last_name = form.cleaned_data['last_name']
         user.save()
         return super().form_valid(form)
+
+
+class MarkCreateView(LoginRequiredMixin, CreateView):
+    model = Mark
+    fields = ('lesson', 'mark')
+    success_url = reverse_lazy('profile')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        filled_lessons = Mark.objects. \
+            filter(user=self.request.user.student_profile). \
+            values_list('lesson', flat=True)
+        form.fields['lesson'].queryset = Lesson.objects.\
+            exclude(id__in=filled_lessons)
+        return form
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user.student_profile
+        return super().form_valid(form)
+
+
+class MarkUpdateView(LoginRequiredMixin, UpdateView):
+    model = Mark
+    fields = ('mark',)
+    template_name = 'home/mark_edit.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Mark, user=self.request.user.student_profile,
+            lesson=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return f"{reverse('profile')}#schoolMark"
+
+
+class MarkDeleteView(LoginRequiredMixin, DeleteView):
+    model = Mark
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Mark, user=self.request.user.student_profile,
+            lesson=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return f"{reverse('profile')}#schoolMark"
 
 
 class OlimpiadAdminImportView(LoginRequiredMixin, TemplateView):

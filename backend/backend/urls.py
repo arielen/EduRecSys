@@ -72,11 +72,12 @@ urlpatterns = [
     path("profile/edit/", home_views.ProfileEditView.as_view(),
          name="profile-edit"),
 
-    #     path("disciplines/", home_views.DisciplinesView.as_view(),
-    #          name="disciplines"),
-    #     path("disciplines/<str:slug>/",
-    #          home_views.DisciplineView.as_view(), name="discipline"),
-    # path("video/", home_views.VideoView.as_view(), name="video"),
+    path("marks/create/", home_views.MarkCreateView.as_view(),
+         name="mark-create"),
+    path("marks/edit/<int:pk>", home_views.MarkUpdateView.as_view(),
+         name="mark-edit"),
+    path("marks/delete/<int:pk>",
+         home_views.MarkDeleteView.as_view(), name="mark-delete"),
 ]
 
 

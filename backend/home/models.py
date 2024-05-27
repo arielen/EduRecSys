@@ -148,11 +148,12 @@ class Mark(models.Model):
     )
     mark = models.IntegerField(
         verbose_name='Оценка',
-        choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')]
+        choices=[(1, '1 (???)'), (2, '2 (неуд.)'), (3, '3 (удовл.)'),
+                 (4, '4 (хор.)'), (5, '5 (отл.)')]
     )
 
     def __str__(self) -> str:
-        return f"{self.user} {self.lesson} {self.mark} {self.class_}"
+        return f"{self.user} {self.lesson} {self.mark}"
 
 
 class Olimpiad(ClusterableModel):
@@ -573,19 +574,22 @@ class SoftSkillUser(models.Model):
         SoftSkillTest, on_delete=models.CASCADE,
         verbose_name='Softskill'
     )
-    """
-    TODO:
-    Случается такое, что результаты тестирования имеют float-типы.
-    Однако в рамках "ОЦЕНКИ ОЛИМПИАД" используется только целое число.
-    Вопрос:
-        Следует ли использовать float для данного поля?
-        Или можно использовать int, приведя результат к целому числу?
-            - Сокращение результата или округление в какую-то сторону
-    """
     softSkillResult = models.IntegerField(
         verbose_name='Результат softskill',
         choices=[(0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')]
     )
+
+    @property
+    def percent(self) -> int:
+        return int(self.softSkillResult / self.softskill.count_scores * 100)
+
+    @property
+    def progress_status(self) -> str:
+        if self.percent >= 66:
+            return "success"
+        elif self.percent >= 33:
+            return "warning"
+        return "danger"
 
 
 class HomePage(Page):

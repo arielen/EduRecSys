@@ -21,9 +21,9 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container mb-3">
+  <div class="container mb-5">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 mt-5">
         <div class="card">
           {% if user.student_profile.photo %}
             <img src="{{ user.student_profile.photo.url }}" alt="Профильное изображение" class="card-img-top" />
@@ -60,71 +60,183 @@
         </div>
       </div>
 
-      <div class="col-md-8">
-        <h1>Мои курсы</h1>
-        {% if courses %}
-          <!-- ========== Карусель курсов ========== -->
-          <div class="container mt-5">
-            <div id="olympiadCarousel" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                {% for course in courses %}
-                  <!-- Используем 'forloop.first' для активации первого элемента -->
-                  <div class="carousel-item {% if forloop.first %}{% endif %}">
-                    <div class="card-group">
-                      {% for item in course %}
-                        <div class="card">
-                          <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" height="150" />
-                          <div class="card-img-overlay">
-                            {{ item }}
-                            <h5 class="card-title">{{ item.title }}</h5>
-                            <p class="card-text">{{ item.description }}</p>
+      <div class="col-md-8 mt-5">
+        <section class="container">
+          <h1 class="mb-4">Мои курсы</h1>
+          {% if courses %}
+            <!-- ========== Карусель курсов ========== -->
+            <div class="container mt-5">
+              <div id="olympiadCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  {% for course in courses %}
+                    <!-- Используем 'forloop.first' для активации первого элемента -->
+                    <div class="carousel-item {% if forloop.first %}{% endif %}">
+                      <div class="card-group">
+                        {% for item in course %}
+                          <div class="card">
+                            <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" height="150" />
+                            <div class="card-img-overlay">
+                              {{ item }}
+                              <h5 class="card-title">{{ item.title }}</h5>
+                              <p class="card-text">{{ item.description }}</p>
+                            </div>
                           </div>
-                        </div>
-                      {% endfor %}
+                        {% endfor %}
+                      </div>
                     </div>
-                  </div>
-                {% endfor %}
+                  {% endfor %}
+                </div>
+                <!-- Контролы для перелистывания -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Предыдущая</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Следущая</span>
+                </button>
               </div>
-              <!-- Контролы для перелистывания -->
-              <button class="carousel-control-prev" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Предыдущая</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Следущая</span>
-              </button>
+            </div>
+          {% else %}
+            <p>У вас пока нет ни одного курса</p>
+          {% endif %}
+
+          <div class="d-flex align-items-center mb-4 mt-5">
+            <h1 class="me-3"><a href="#" class="text-secondary me-2" data-bs-toggle="collapse" data-bs-target="#successSoftskills" aria-expanded="true" aria-controls="successSoftskills" id="toggleIcon"><i class="fa-solid fa-circle-chevron-up"></i></a>Мягкие навыки</h1>
+          </div>
+          <div class="collapse show" id="successSoftskills">
+            <ul class="list-group">
+              {% if softskills %}
+                {% for skill in softskills %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ skill.softskill }}: {{ skill.softSkillResult }}</span>
+                    <div class="progress flex-grow-1 mx-3" style="height: 25px;">
+                      <div class="progress-bar progress-bar-striped bg-{{ skill.progress_status }}" role="progressbar" style="width: {{ skill.percent }}%;" aria-valuenow="{{ skill.softSkillResult }}" aria-valuemin="0" aria-valuemax="{{ skill.softskill.count_scores }}">{{ skill.percent }}%</div>
+                    </div>
+                  </li>
+                {% endfor %}
+              {% else %}
+                <li class="list-group-item text-center">Нет истории о навыках</li>
+              {% endif %}
+            </ul>
+          </div>
+
+          {% if missing_softskills %}
+            <div class="d-flex align-items-center mb-4 mt-5">
+              <h1 class="me-3"><a href="#" class="text-secondary me-2" data-bs-toggle="collapse" data-bs-target="#missingSoftskills" aria-expanded="false" aria-controls="missingSoftskills" id="toggleIcon"><i class="fa-solid fa-circle-chevron-up"></i></a>Не пройденные навыки</h1>
+              <button type="button" class="btn btn-info btn-sm" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Если не пройти все тесты, посвященные оценке мягких навыков, то невозможно будет составить рекомендации">?</button>
+            </div>
+            <div class="collapse show" id="missingSoftskills">
+              <ul class="list-group">
+                {% for skill in missing_softskills %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ skill }}</span>
+                    <a href="{% url 'test' pk=skill.pk %}" class="btn btn-primary btn-sm">Перейти</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <div class="d-flex align-items-center mb-4 mt-5">
+            <h1 class="me-3"><a href="#" class="text-secondary me-2" data-bs-toggle="collapse" data-bs-target="#schoolMark" aria-expanded="false" aria-controls="schoolMark" id="toggleIcon"><i class="fa-solid fa-circle-chevron-up"></i></a>Школьные оценки</h1>
+          </div>
+          <div class="collapse show" id="schoolMark">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Название предмета</th>
+                    <th scope="col">Оценка</th>
+                    <th scope="col">Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if marks %}
+                    {% for mark in marks %}
+                      <tr>
+                        <td>{{ mark.lesson }}</td>
+                        <td>{{ mark.get_mark_display }}</td>
+                        <td>
+                          <a href="{% url 'mark-edit' pk=mark.lesson.pk %}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pen"></i></a>
+                          <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-mark-url="{% url 'mark-delete' pk=mark.lesson.pk %}"><i class="fas fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    <tr>
+                      <td colspan="3">
+                        <a href="{% url 'mark-create' %}" class="btn btn-outline-primary btn-sm d-flex w-100 justify-content-center">Добавить ещё</a>
+                      </td>
+                    </tr>
+                  {% else %}
+                    <tr>
+                      <td colspan="3" class="text-center">
+                        Нет данных об оценках
+                        <a href="{% url 'mark-create' %}" class="btn btn-primary btn-sm ms-2">Перейти к добавлению</a>
+                      </td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
             </div>
           </div>
-        {% else %}
-          <p>У вас пока нет ни одного курса</p>
-        {% endif %}
 
-        <h1>Мои навыки</h1>
-        <ul class="list-group">
-          {% if softskills %}
-            {% for softskill in softskills %}
-              <li class="list-group-item">{{ softskill.softskill }} : {{ softskill.softSkillResult }}</li>
-            {% endfor %}
-          {% else %}
-            <li class="list-group-item">Нет истории о навыках</li>
-          {% endif %}
-        </ul>
-
-        <h1>Пройденные тесты</h1>
-        <p style="font-size: 2em;">PLACEHOLDER</p>
-        {% comment %} <ul class="list-group">
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
-          <li class="list-group-item">
-            {% lorem 1 b random %}
-          </li>
-        </ul> {% endcomment %}
+          <!-- Модальное окно для подтверждения удаления -->
+          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Подтверждение удаления</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Вы уверены, что хотите удалить эту оценку?</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                  <form id="confirmDeleteForm" method="post" action="#">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block custom_jquery %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+      })
+      var collapseIds = ['missingSoftskills', 'successSoftskills', 'schoolMark']
+    
+      collapseIds.forEach(function (id) {
+        var toggleIcon = document.querySelector('[data-bs-target="#' + id + '"]')
+        var collapseElement = document.getElementById(id)
+    
+        collapseElement.addEventListener('show.bs.collapse', function () {
+          toggleIcon.querySelector('i').classList.remove('fa-circle-chevron-down')
+          toggleIcon.querySelector('i').classList.add('fa-circle-chevron-up')
+        })
+    
+        collapseElement.addEventListener('hide.bs.collapse', function () {
+          toggleIcon.querySelector('i').classList.remove('fa-circle-chevron-up')
+          toggleIcon.querySelector('i').classList.add('fa-circle-chevron-down')
+        })
+      })
+    
+      var deleteModal = document.getElementById('deleteModal')
+      deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget // Кнопка, которая открыла модальное окно
+        var url = button.getAttribute('data-mark-url') // Извлечение URL из data-* атрибута
+        var confirmDeleteForm = document.getElementById('confirmDeleteForm')
+        confirmDeleteForm.action = url // Установка URL для формы подтверждения удаления
+      })
+    })
+  </script>
 {% endblock %}

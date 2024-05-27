@@ -56,7 +56,7 @@
       <div class="container mt-3">
         {% if request.path != register_url %}
           <!-- Модальное окно для регистрации -->
-          <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+          <div class="modal fade" id="registerModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="registerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -119,7 +119,9 @@
                         <p class="help text-danger">{{ form.password2.errors }}</p>
                       {% endif %}
                     </div>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -129,7 +131,7 @@
 
         {% if request.path != login_url %}
           <!-- Модальное окно для авторизации -->
-          <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+          <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -148,7 +150,9 @@
                       <input type="password" class="form-control" id="password" name="password" required />
                     </div>
                     <div id="loginError" class="alert alert-danger" role="alert" style="display: none;">Неверный адрес электронной почты или пароль.</div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -157,7 +161,7 @@
         {% endif %}
 
         <!-- Модальное окно для восстановления пароля -->
-        <div class="modal fade" id="recoverModal" tabindex="-1" aria-labelledby="recoverModalLabel" aria-hidden="true">
+        <div class="modal fade" id="recoverModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="recoverModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">

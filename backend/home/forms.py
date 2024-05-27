@@ -4,7 +4,9 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
-from .models import StudentProfile, City, School
+from home.models import (
+    StudentProfile, City, School
+)
 
 
 class SignUpForm(UserCreationForm):
