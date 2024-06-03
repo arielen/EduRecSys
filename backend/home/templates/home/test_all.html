@@ -9,23 +9,29 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container mb-4">
+  <div class="container mt-5 mb-5">
     {% if not tests %}
       <div class="d-grid">Пока нет ни одного теста</div>
     {% else %}
       <div class="row">
         {% for t in tests %}
-          <div class="col-md-4">
+          <div class="col-md-4 mb-4">
             <div class="card text-black">
               {% if t.image %}
-                {% image t.image fill - 500 x300 as img %}
+                {% image t.image fill-500x300 as img %}
                 <img src="{{ img.url }}" class="card-img" alt="{{ t.title }}" />
               {% else %}
                 <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
               {% endif %}
-              <div class="card-img-overlay">
+              <div class="card-img-overlay bg-white p-3" style="opacity: 0.8;">
                 <h5 class="card-title">{{ t.softSkill }}</h5>
-                <a href="{% url 'test' t.pk %}" class="btn btn-outline-primary">Пройти тест</a>
+                <a href="{% url 'test' t.pk %}" class="btn btn-outline-primary">
+                  {% if t.user_passed %}
+                    Пройти заново
+                  {% else %}
+                    Пройти тест
+                  {% endif %}
+                </a>
               </div>
             </div>
           </div>

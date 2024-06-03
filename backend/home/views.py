@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.files.storage import default_storage
+from django.db.models import Exists, OuterRef
 from django.http import HttpResponse, HttpRequest
 from django.views.generic import (
     TemplateView, CreateView, ListView, UpdateView, DeleteView
@@ -35,6 +36,20 @@ class AllTestView(LoginRequiredMixin, ListView):
     template_name = 'home/test_all.html'
     model = SoftSkillTest
     context_object_name = 'tests'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        # Используем подзапрос для определения, прошел ли пользователь тест
+        softSkillUserSubquery = SoftSkillUser.objects.filter(
+            user=user.student_profile,
+            softskill=OuterRef('pk')
+        )
+        # Добавляем аннотированные поля к запросу
+        context['tests'] = SoftSkillTest.objects.annotate(
+            user_passed=Exists(softSkillUserSubquery)
+        ).order_by('softSkill__name')
+        return context
 
 
 class TestView(LoginRequiredMixin, TemplateView):
@@ -261,12 +276,16 @@ class MarkCreateView(LoginRequiredMixin, CreateView):
             filter(user=self.request.user.student_profile). \
             values_list('lesson', flat=True)
         form.fields['lesson'].queryset = Lesson.objects.\
-            exclude(id__in=filled_lessons)
+            exclude(id__in=filled_lessons). \
+            order_by('lessonName')
         return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user.student_profile
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return f"{reverse('profile')}#schoolMark"
 
 
 class MarkUpdateView(LoginRequiredMixin, UpdateView):

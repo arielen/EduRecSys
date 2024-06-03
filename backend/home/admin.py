@@ -1,7 +1,6 @@
 from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
 )
-from django.contrib.admin import ChoicesFieldListFilter
 
 from .models import (
     City, Lesson, Olimpiad, SoftSkill, SoftSkillTest

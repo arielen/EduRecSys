@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-5 mb-5">
     <!-- ========== Наименование теста ========== -->
     <h1 class="mb-4">Тестирование "{{ page.softSkill }}"</h1>
 
@@ -25,7 +25,9 @@
                 <!-- ========== Текст вопроса ========== -->
                 <div>
                   <h1 class="mb-3">Вопрос № {{ question_number }}</h1>
-                  <h3 class="mb-3">{{ question.question_text|richtext }}</h3>
+                  <div style="overflow: auto;">
+                    <h3 class="mb-3">{{ question.question_text|richtext }}</h3>
+                  </div>
                 </div>
                 <div>
                   {% if question.type_answer == 'input' %}

@@ -83,7 +83,7 @@
                     <div class="card h-100">
                       <a href="{% url 'test' pk=item.pk %}" class="text-decoration-none">
                         {% if item.image %}
-                          {% image item.image fill - 500 x300 as img %}
+                          {% image item.image fill-500x300 as img %}
                           <img src="{{ img.url }}" class="card-img-top" alt="{{ item.softSkill }}" />
                         {% else %}
                           <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img-top" alt="{{ item.title }}" />
