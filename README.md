@@ -1,40 +1,82 @@
 # EduRecSys
 __Development of a web-service recommendation system for educational services__
 
-## Requirements for the project 
+## Описание
+Платформа для обучения 
 
-### User Registration and Authentication:
-    The system should allow users to create accounts, log in, and authenticate their identities to access personalized recommendations.
+## 📚 Навигация
 
-### Data Collection and Integration: 
-    The system should collect and integrate data from various educational service providers, such as courses, programs, and learning materials, to build a comprehensive database.
+- [🛠️ Установка](#️-установка)
+    + [💻 Системные требования](#-системные-требования)
+    + [🐍 Развертывание тестового сервера используя Python](#-запуск-тестового-сервера-с-использованием-python)
+    + [🐳 Развертывание Docker Container](#-развертывание-с-docker)
+- [🖼️ Визуальный интерфейс](#️-визуальный-интерфейс)
 
-### User Profiling: 
-    The system should create user profiles based on their preferences, interests, and past interactions with the platform to personalize the recommendations.
 
-### Recommendation Engine: 
-    The system should implement a recommendation engine that utilizes machine learning algorithms to analyze user data and provide accurate and relevant recommendations for educational services.
+## 🛠️ Установка
 
-### Content Filtering and Curation: 
-    The system should filter and curate the educational content to ensure its quality, relevance, and appropriateness for the target audience.
+### 💻 Системные требования
 
-### Search Functionality: 
-    The system should include a search feature that allows users to search for specific educational services based on their preferences and requirements.
+- **Python 3.8+**
+- **Django 4.2+**
+- **Виртуальное окружение** *(-опционально)*
+- **Docker** *(-опционально)*
+- **Docker Compose** *(-опционально)*
 
-### Rating and Feedback: 
-    The system should provide a mechanism for users to rate and provide feedback on the recommended educational services, which can be used to improve the recommendation algorithms.
+### 🐍 Запуск тестового сервера с использованием Python
 
-### Responsive Web Design: 
-    The system should be designed to be responsive and accessible across different devices, such as desktops, laptops, tablets, and mobile phones.
+1. **Клонируйте репозиторий:**
+```sh
+git clone https://github.com/arielen/EduRecSys.git
+cd EduRecSys
+```
 
-### Security and Privacy: 
-    The system should implement robust security measures to protect user data and ensure the privacy of user information.
+2. **Создайте и активируйте виртуальное окружение:**
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-### Analytics and Reporting: 
-    The system should provide analytics and reporting capabilities to track user interactions, measure the effectiveness of recommendations, and generate insights for further improvements.
+3. **Установка зависимостей:**
+```sh
+python3 -m pip install -r backend/requirements.txt
+```
 
-### Integration with External Systems: 
-    The system should have the capability to integrate with external systems, such as learning management systems or educational platforms, to enhance the user experience and provide seamless access to recommended services.
+4. **Примените миграции базы данных:**
+```sh
+python3 backend/manage.py migrate
+```
 
-### Scalability and Performance: 
-    The system should be designed to handle a large volume of users and data, ensuring scalability and optimal performance.
+5. **Создание суперпользователя:**
+```sh
+python3 backend/manage.py createsuperuser
+```
+
+6. **Запустите сервер разработки:**
+```sh
+python3 backend/manage.py runserver
+```
+
+### 🐳 Развертывание с Docker
+
+1. **Установка Docker:** Начните с [загрузки и установки Docker](https://docs.docker.com/get-docker/) (-опционально).
+
+2. **Перейти в директорию с проектом:**
+```sh
+cd backend
+```
+
+3. **Запустить Docker:**
+```sh
+docker build -t edu .
+```
+
+4. Откройте веб-браузер и перейдите по адресу [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+
+
+## 🖼️ Визуальный интерфейс
+
+![Главный интерфейс](/docs/main.png)
+![Страница пользователя](/docs/profile.png)
+![Редактирование оценок](/docs/mark.png)
+![Прохождение тестов](/docs/softskills.png)

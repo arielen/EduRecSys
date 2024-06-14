@@ -1,0 +1,52 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title %}
+  Рекомендации по олимпиадам
+{% endblock %}
+
+{% block title_suffix %}
+  {% translate 'List Tests' %}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5 mb-5">
+    {% if not recommendations %}
+      <div class="d-grid">Пока нет ни одной рекомендации</div>
+    {% else %}
+			<form method="get" action="">
+				<label for="lesson">Выберите урок:</label>
+				<select id="lesson" name="lesson">
+					<option value="">Все</option>
+					{% for lesson in lessons %}
+							<option value="{{ lesson.id }}" {% if request.GET.lesson == lesson.id|stringformat:"s" %}selected{% endif %}>
+									{{ lesson.name }}
+							</option>
+					{% endfor %}
+				</select>
+				<button type="submit">Фильтровать</button>
+			</form>
+      <div class="row">
+        {% for olimpiad in recommendations %}
+          <div class="col-md-4 mb-4">
+            <div class="card text-black">
+              {% if olimpiad.image %}
+                {% image olimpiad.image fill - 500 x300 as img %}
+                <img src="{{ img.url }}" class="card-img" alt="{{ t.title }}" />
+              {% else %}
+                <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img" alt="{{ t.title }}" />
+              {% endif %}
+              <div class="card-img-overlay">
+                <h5 class="card-title">{{ olimpiad.name }}</h5>
+                <a href="{% url 'olimpiad' pk=olimpiad.pk %}" class="btn btn-outline-primary">Подробнее</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

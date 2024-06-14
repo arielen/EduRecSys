@@ -1,3 +1,4 @@
+import os
 from .base import *
 from decouple import config, Csv
 
@@ -27,6 +28,16 @@ SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SESSION_COOKIE_SECURE = config(
     'SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+
+# DB CONFIG
+DATABASES['default'] = {
+    'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+    'NAME': config('DB_NAME', default=os.path.join(BASE_DIR, "db.sqlite3")),
+    'USER': config('DB_USER', default=None),
+    'PASSWORD': config('DB_PASSWORD', default=None),
+    'HOST': config('DB_HOST', default=None),
+    'PORT': config('DB_PORT', default=None),
+}
 
 try:
     from .local import *

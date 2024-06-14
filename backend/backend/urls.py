@@ -78,6 +78,8 @@ urlpatterns = [
          name="mark-edit"),
     path("marks/delete/<int:pk>",
          home_views.MarkDeleteView.as_view(), name="mark-delete"),
+
+    path("advice/", home_views.AdviceView.as_view(), name="advice"),
 ]
 
 

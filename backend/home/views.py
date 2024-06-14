@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.files.storage import default_storage
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, Avg, Q
 from django.http import HttpResponse, HttpRequest
 from django.views.generic import (
     TemplateView, CreateView, ListView, UpdateView, DeleteView
@@ -16,11 +16,12 @@ from django.utils.html import strip_tags
 from django.urls import reverse, reverse_lazy
 
 
-from typing import Any
+from typing import Any, TypeVar
 
 from .models import (
     Lesson, Olimpiad, StudentProfile,
-    SoftSkillTest, Answer, SoftSkillUser, Mark
+    SoftSkillTest, Answer, SoftSkillUser, Mark,
+    AdditionalOlimpiadLesson, BaseOlimpiadLesson, OlimpiadSS
 )
 
 from .utils import (
@@ -31,13 +32,86 @@ from .forms import (
     SignUpForm, ProfileEditForm,
 )
 
+OlimpiadLesson = TypeVar(
+    'OlimpiadLesson',
+    BaseOlimpiadLesson,
+    AdditionalOlimpiadLesson
+)
+
+
+class AdviceView(LoginRequiredMixin, TemplateView):
+    template_name = 'home/advice.html'
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user_profile = self.request.user.student_profile
+
+        user_marks = Mark.objects.filter(user=user_profile) \
+            .select_related('lesson')
+        lessons = user_marks.values_list('lesson', flat=True)
+
+        # selected_lesson_id = self.request.GET.get('lesson', None)
+
+        # Fetching Olympiad lessons
+        base_olimp_lessons = BaseOlimpiadLesson.objects. \
+            filter(lesson__in=lessons).prefetch_related('lesson')
+        additional_olimp_lessons = AdditionalOlimpiadLesson.objects. \
+            filter(lesson__in=lessons).prefetch_related('lesson')
+
+        # if selected_lesson_id:
+        #     base_olimp_lessons = base_olimp_lessons. \
+        #         filter(lesson_id=selected_lesson_id)
+        #     additional_olimp_lessons = additional_olimp_lessons. \
+        #         filter(lesson_id=selected_lesson_id)
+
+        # Filtering recommendations
+        def get_recommendations(olimp_lessons: OlimpiadLesson) -> list[OlimpiadLesson]:
+            recommendations = []
+            for lesson in olimp_lessons:
+                avg_mark = user_marks.filter(lesson=lesson.lesson).\
+                    aggregate(avg_mark=Avg('mark'))['avg_mark']
+                if avg_mark and avg_mark >= lesson.minAvgMarkFor3Years:
+                    recommendations.append(lesson)
+            return recommendations
+
+        base_recommendations = get_recommendations(base_olimp_lessons)
+        additional_recommendations = get_recommendations(
+            additional_olimp_lessons)
+
+        # Fetching soft skills
+        user_soft_skills = SoftSkillUser.objects.\
+            filter(user=user_profile).select_related('softskill')
+        softskill_olimpiads = OlimpiadSS.objects.\
+            filter(
+                ss__in=user_soft_skills.values_list('softskill', flat=True)
+            ).prefetch_related('ss')
+
+        # Filtering soft skill recommendations
+        softskill_recommendations = [
+            softskill for softskill in softskill_olimpiads
+            if user_soft_skills.filter(softskill__softSkill=softskill.ss)
+            .first().softSkillResult >= softskill.minRezult
+        ]
+
+        # Filtering final recommendations
+        olimpiads_recommendations = Olimpiad.objects.filter(
+            Q(baseolimpiadlesson__in=base_recommendations) &
+            Q(additionalolimpiadlesson__in=additional_recommendations) &
+            Q(olimpiadsoftskill__in=softskill_recommendations)
+        ).distinct()
+
+        context['recommendations'] = olimpiads_recommendations
+        context['lessons'] = lessons
+
+        return context
+
 
 class AllTestView(LoginRequiredMixin, ListView):
     template_name = 'home/test_all.html'
     model = SoftSkillTest
     context_object_name = 'tests'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         user = self.request.user
         # Используем подзапрос для определения, прошел ли пользователь тест
@@ -280,7 +354,7 @@ class MarkCreateView(LoginRequiredMixin, CreateView):
             order_by('lessonName')
         return form
 
-    def form_valid(self, form):
+    def form_valid(self, form) -> HttpResponse:
         form.instance.user = self.request.user.student_profile
         return super().form_valid(form)
 
@@ -293,7 +367,7 @@ class MarkUpdateView(LoginRequiredMixin, UpdateView):
     fields = ('mark',)
     template_name = 'home/mark_edit.html'
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None) -> Mark:
         return get_object_or_404(
             Mark, user=self.request.user.student_profile,
             lesson=self.kwargs['pk'])
@@ -305,7 +379,7 @@ class MarkUpdateView(LoginRequiredMixin, UpdateView):
 class MarkDeleteView(LoginRequiredMixin, DeleteView):
     model = Mark
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None) -> Mark:
         return get_object_or_404(
             Mark, user=self.request.user.student_profile,
             lesson=self.kwargs['pk'])
@@ -360,7 +434,7 @@ class RegisterView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('home')
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs) -> HttpResponse:
         if request.user.is_authenticated:
             return redirect('home')
         return super().dispatch(request, *args, **kwargs)

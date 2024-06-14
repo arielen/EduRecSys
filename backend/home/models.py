@@ -168,7 +168,7 @@ class Olimpiad(ClusterableModel):
         verbose_name = "Олимпиада"
         verbose_name_plural = "Олимпиады"
 
-    name = models.CharField(max_length=50, verbose_name='Название олимпиады')
+    name = models.CharField(verbose_name='Название олимпиады')
     link = models.URLField(verbose_name='Ссылка на олимпиаду')
     info = RichTextField(verbose_name='Описание олимпиады',
                          blank=True, null=True)
