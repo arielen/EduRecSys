@@ -17,7 +17,7 @@
     {% if not recommendations %}
       <div class="d-grid">Пока нет ни одной рекомендации</div>
     {% else %}
-			<form method="get" action="">
+			{% comment %} <form method="get" action="">
 				<label for="lesson">Выберите урок:</label>
 				<select id="lesson" name="lesson">
 					<option value="">Все</option>
@@ -28,7 +28,7 @@
 					{% endfor %}
 				</select>
 				<button type="submit">Фильтровать</button>
-			</form>
+			</form> {% endcomment %}
       <div class="row">
         {% for olimpiad in recommendations %}
           <div class="col-md-4 mb-4">

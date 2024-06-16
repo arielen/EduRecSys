@@ -86,12 +86,13 @@ class AdviceView(LoginRequiredMixin, TemplateView):
                 ss__in=user_soft_skills.values_list('softskill', flat=True)
             ).prefetch_related('ss')
 
-        # Filtering soft skill recommendations
-        softskill_recommendations = [
-            softskill for softskill in softskill_olimpiads
-            if user_soft_skills.filter(softskill__softSkill=softskill.ss)
-            .first().softSkillResult >= softskill.minRezult
-        ]
+        softskill_recommendations = []
+        for softskill in softskill_olimpiads:
+            user_soft_skill = user_soft_skills.filter(
+                softskill__softSkill=softskill.ss).last()
+            if user_soft_skill \
+                    and user_soft_skill.softSkillResult >= softskill.minRezult:
+                softskill_recommendations.append(softskill)
 
         # Filtering final recommendations
         olimpiads_recommendations = Olimpiad.objects.filter(
