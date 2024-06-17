@@ -53,7 +53,7 @@ __Development of a web-service recommendation system for educational services__
 https://github.com/arielen/EduRecSys/assets/69113994/e8cbf88b-2063-4ca7-ad36-7f72bee3e06c
 
 ### 👨‍💼 Интерфейс администратора
-![Интерфейс администратора](/docs/interface_admin.gif)
+https://github.com/arielen/EduRecSys/assets/69113994/3ef2eaa2-9a94-48fe-8cfb-602300e719a4
 
 [🔗 Дополнительные изображения](https://github.com/arielen/EduRecSys/tree/master/docs/images.md)
 
