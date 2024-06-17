@@ -50,7 +50,7 @@ __Development of a web-service recommendation system for educational services__
 ## 🖼️ Визуальный интерфейс
 
 ### 👥 Пользовательский интерфейс
-<video controls src="https://github.com/arielen/EduRecSys/tree/master/docs/user_interface.mp4" title="Пользовательский интерфейс"></video>
+https://github.com/arielen/EduRecSys/assets/69113994/e8cbf88b-2063-4ca7-ad36-7f72bee3e06c
 
 ### 👨‍💼 Интерфейс администратора
 ![Интерфейс администратора](/docs/interface_admin.gif)
