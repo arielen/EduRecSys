@@ -3,16 +3,7 @@
 {% load i18n %}
 {% load wagtailimages_tags %}
 {% block custom_style %}
-  <style>
-    .card-img-overlay {
-      background-color: rgba(0, 0, 0, 0.5); /* Темный фон при наведении */
-      opacity: 0; /* Изначально описание скрыто */
-      transition: opacity 0.5s; /* Плавное появление */
-    }
-    .card:hover .card-img-overlay {
-      opacity: 1; /* Описание появляется при наведении */
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 {% endblock %}
 {% block title %}
   {% translate 'Home' %}
@@ -72,28 +63,26 @@
   {% else %}
     <!-- ========== Карусель SoftSkill ========== -->
     <div class="container mt-5">
-      <h2 class="mb-3"><a href="{% url 'test-all' %}" class="text-decoration-none">Перейти к странице с SoftSkill'ами</a></h2>
+      <h2 class="mb-3"><a href="{% url 'test-all' %}" class="text-decoration-none">Перейти к странице с мягкими навыками</a></h2>
       <div id="softSkillCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           {% for card in soft_skill_cards %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="d-grid grid-template-columns-md-3 gap-4">
                 {% for item in card %}
-                  <div class="col">
-                    <div class="card h-100">
-                      <a href="{% url 'test' pk=item.pk %}" class="text-decoration-none">
-                        {% if item.image %}
-                          {% image item.image fill-500x300 as img %}
-                          <img src="{{ img.url }}" class="card-img-top" alt="{{ item.softSkill }}" />
-                        {% else %}
-                          <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img-top" alt="{{ item.title }}" />
-                        {% endif %}
-                        <div class="card-body">
-                          <h5 class="card-title">{{ item.softSkill }}</h5>
-                          <p class="card-text">{{ item.description }}</p>
-                        </div>
-                      </a>
-                    </div>
+                  <div class="card h-100">
+                    <a href="{% url 'test' pk=item.pk %}" class="text-decoration-none">
+                      {% if item.image %}
+                        {% image item.image fill-500x300 as img %}
+                        <img src="{{ img.url }}" class="card-img-top" alt="{{ item.softSkill }}" />
+                      {% else %}
+                        <img src="{% static 'images/default_image_card_test.jpg' %}" class="card-img-top" alt="{{ item.title }}" />
+                      {% endif %}
+                      <div class="card-body">
+                        <h5 class="card-title">{{ item.softSkill }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                      </div>
+                    </a>
                   </div>
                 {% endfor %}
               </div>
@@ -112,27 +101,32 @@
     </div>
     <!-- ========== Карусель олимпиад ========== -->
     <div class="container mt-5">
-      <h2 class="mb-3"><a href="{% url 'olimpiads' %}" class="text-decoration-none">Перейти к странице с Олимпиадами</a></h2>
+      <h2 class="mb-3"><a href="{% url 'olimpiads' %}" class="text-decoration-none">Перейти к странице с олимпиадами</a></h2>
       <div id="olympiadCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           {% for card in olympic_cards %}
-            <!-- Используем 'forloop.first' для активации первого элемента -->
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <div class="card-group">
+              <div class="d-grid grid-template-columns-md-3 gap-4">
                 {% for item in card %}
-                  <div class="card">
-                    <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" height="150" />
-                    <div class="card-img-overlay">
-                      <h5 class="card-title">{{ item.name }}</h5>
-                      <p class="card-text">{{ item.info }}</p>
-                    </div>
+                  <div class="card h-100">
+                    <a href="{% url 'olimpiad' pk=item.pk %}" class="text-decoration-none">
+                      {% if item.image %}
+                        {% image item.image fill - 500 x300 as img %}
+                        <img src="{{ img.url }}" class="card-img-top" alt="{{ item.softSkill }}" />
+                      {% else %}
+                        <img src="{% static 'images/custom-logo.ico' %}" class="card-img" alt="{{ item.title }}" />
+                      {% endif %}
+                      <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.info }}</p>
+                      </div>
+                    </a>
                   </div>
                 {% endfor %}
               </div>
             </div>
           {% endfor %}
         </div>
-        <!-- Контролы для перелистывания -->
         <button class="carousel-control-prev" type="button" data-bs-target="#olympiadCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Предыдущая</span>
