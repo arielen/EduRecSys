@@ -480,6 +480,18 @@ class SoftSkillTest(ClusterableModel):
         """
         return self.questions.aggregate(sum=Sum('score'))['sum'] or 0
 
+    @property
+    def get_time_limits(self) -> list[int]:
+        """
+        Список ограничений по времени для каждого вопроса.
+
+        :return: Список ограничений по времени
+        """
+        return [
+            q.time_limit if q.time_limit else 0
+            for q in self.questions.all()
+        ]
+
 
 class Question(ClusterableModel):
     test = ParentalKey(SoftSkillTest, on_delete=models.CASCADE,
@@ -489,6 +501,9 @@ class Question(ClusterableModel):
         verbose_name="Ограничение по времени (в секундах)", blank=True, null=True)
     score = models.PositiveIntegerField(
         verbose_name="Очки за правильный ответ", blank=True, null=True)
+    additional_text = RichTextField(
+        verbose_name="Дополнительный текст", blank=True, null=True
+    )
 
     panels = [
         FieldPanel(
@@ -497,6 +512,11 @@ class Question(ClusterableModel):
         ),
         FieldPanel('time_limit'),
         FieldPanel('score'),
+        FieldPanel(
+            'additional_text',
+            help_text="Используйте как дополнение, в случае если есть лимит "
+            "по времени, то он будет показываться как вспомогательный"
+        ),
         InlinePanel(
             'answers', label="Ответы",
             panels=[

@@ -2,37 +2,41 @@
 {% load i18n %}
 {% load wagtailcore_tags %}
 
-{% block title_suffix %}
-  {% translate 'Page About Site' %}
+{% block title %}
+  {{ page.softSkill }}
 {% endblock %}
 
 {% block content %}
   <div class="container mt-5 mb-5">
-    <!-- ========== Наименование теста ========== -->
+    <!-- ========== Test Name ========== -->
     <h1 class="mb-4">Тестирование "{{ page.softSkill }}"</h1>
 
-    <!-- ========== Вводный текст для тестирования ========== -->
-    <div class="mb-4">{{ page.intro|richtext }}</div>
+    <!-- ========== Introductory Text for Testing ========== -->
+    <div class="mb-5" id="intro-section">
+      <div class="mb-4">{{ page.intro|richtext }}</div>
+      <button type="button" class="btn btn-primary" onclick="startTest()">Приступить к решению</button>
+    </div>
 
-    <!-- ========== Форма для ввода ответов пользоватлей на тест ========== -->
-    <form id="quizForm" method="post" onsubmit="return showNextQuestion(event)">
+    <!-- ========== User Answers Input Form ========== -->
+    <form id="quizForm" method="post" onsubmit="return showNextQuestion(event)" style="display: none;">
       {% csrf_token %}
       <div class="question-section">
         {% for question in questions %}
-          {% with question_number=forloop.counter %}
-            <div class="question card mb-4" style="display: none;">
-              <div class="card-body">
-                <!-- ========== Текст вопроса ========== -->
-                <div>
-                  <h1 class="mb-3">Вопрос № {{ question_number }}</h1>
-                  <div style="overflow: auto;">
-                    <h3 class="mb-3">{{ question.question_text|richtext }}</h3>
-                  </div>
-                </div>
+          <div class="question card mb-4" style="display: none;">
+            <div class="card-body">
+              <!-- ========== Question Text ========== -->
+              <h1 class="mb-3">Вопрос № {{ forloop.counter }}</h1>
+              <div id="question-text-{{ forloop.counter }}" class="question-text" style="overflow: auto;">
+                <h3 class="mb-3">{{ question.question_text|richtext }}</h3>
+              </div>
+
+              {% if question.additional_text %}
+                <button type="button" id="show-answer-button-{{ forloop.counter }}" class="btn btn-secondary" onclick="showAdditionalText({{ forloop.counter }})">Перейти к ответу</button>
+              {% else %}
                 <div>
                   {% if question.type_answer == 'input' %}
-                    <label for="{{ question.answers.all.first.id }}">Введите верный ответ:</label>
-                    <input type="text" id="{{ question.answers.all.first.id }}" name="question-input-{{ question.id }}" class="form-control" />
+                    <label for="{{ question.answers.first.id }}">Введите верный ответ:</label>
+                    <input type="text" id="{{ question.answers.first.id }}" name="question-input-{{ question.id }}" class="form-control" />
                   {% elif question.type_answer == 'checkbox' %}
                     {% for answer in question.answers.all %}
                       <div class="form-check">
@@ -51,9 +55,39 @@
                     <p>Что-то не так</p>
                   {% endif %}
                 </div>
-              </div>
+              {% endif %}
+
+              {% if question.additional_text %}
+                <div id="additional-text-{{ forloop.counter }}" style="display: none;">
+                  <div style="overflow: auto;">
+                    <h3 class="mb-3">{{ question.additional_text|richtext }}</h3>
+                  </div>
+                  <div>
+                    {% if question.type_answer == 'input' %}
+                      <label for="{{ question.answers.first.id }}">Введите верный ответ:</label>
+                      <input type="text" id="{{ question.answers.first.id }}" name="question-input-{{ question.id }}" class="form-control" />
+                    {% elif question.type_answer == 'checkbox' %}
+                      {% for answer in question.answers.all %}
+                        <div class="form-check">
+                          <input type="checkbox" id="{{ answer.id }}" name="question-checkbox-{{ question.id }}-{{ answer.id }}" value="{{ answer.answer_text|striptags }}" class="form-check-input" />
+                          <label for="{{ answer.id }}" class="form-check-label">{{ answer.answer_text|striptags }}</label>
+                        </div>
+                      {% endfor %}
+                    {% elif question.type_answer == 'radio' %}
+                      {% for answer in question.answers.all %}
+                        <div class="form-check">
+                          <input type="radio" id="{{ answer.id }}" name="question-radio-{{ question.id }}" value="{{ answer.answer_text|striptags }}" class="form-check-input" />
+                          <label for="{{ answer.id }}" class="form-check-label">{{ answer.answer_text|striptags }}</label>
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <p>Что-то не так</p>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
             </div>
-          {% endwith %}
+          </div>
         {% endfor %}
       </div>
       <button type="submit" class="btn btn-primary">Отправить</button>
@@ -63,18 +97,44 @@
   <script>
     let currentQuestionIndex = 0
     const questions = document.querySelectorAll('.question')
+    let questionTimeout
     
-    // Show the first question when the page loads
-    questions[currentQuestionIndex].style.display = 'block'
+    function startTest() {
+      document.getElementById('intro-section').style.display = 'none'
+      document.getElementById('quizForm').style.display = 'block'
+      showQuestion(currentQuestionIndex)
+    }
+    
+    function showQuestion(index) {
+      if (index < questions.length) {
+        questions[index].style.display = 'block'
+      }
+    }
+    
+    function showAdditionalText(questionNumber) {
+      const questionText = document.getElementById(`question-text-${questionNumber}`)
+      const additionalText = document.getElementById(`additional-text-${questionNumber}`)
+      const answerButton = document.getElementById(`show-answer-button-${questionNumber}`)
+      if (questionText && additionalText && answerButton) {
+        questionText.style.display = 'none'
+        additionalText.style.display = 'block'
+        answerButton.style.display = 'none'
+      }
+      startTimer()
+    }
+    
+    function startTimer() {
+      clearTimeout(questionTimeout)
+      questionTimeout = setTimeout(showNextQuestion, 60000) // 60 seconds
+    }
     
     function showNextQuestion(event) {
-      event.preventDefault()
+      if (event) event.preventDefault()
       questions[currentQuestionIndex].style.display = 'none'
       currentQuestionIndex++
       if (currentQuestionIndex < questions.length) {
-        questions[currentQuestionIndex].style.display = 'block'
+        showQuestion(currentQuestionIndex)
       } else {
-        // Submit the form if all questions are answered
         document.getElementById('quizForm').submit()
       }
       return false
