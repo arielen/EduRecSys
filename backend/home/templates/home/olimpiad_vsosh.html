@@ -1,0 +1,134 @@
+{% extends 'home/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title %}
+  {{ olimpiad }}
+{% endblock %}
+
+{% block custom_js %}
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=e3eaebbc-6164-4eb5-aef0-169fdf560e48&lang=ru_RU" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>Олимпиада «Высшая проба»</h1>
+        <div class="mt-2">
+          <span class="badge bg-success">{{ olimpiad.baseolimpiadlesson.first.lesson }}</span>
+          <span class="badge bg-secondary">7-11 классы</span>
+        </div>
+        <h3 class="mt-3">{{ olimpiad }}</h3>
+        <h6 class="mt-2 text-danger">Идет подведение итогов финала</h6>
+      </div>
+      <div class="col-md-2 text-center">
+        <h1 class="display-4"><i class="fas fa-star"></i> 9.2</h1>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header bg-primary text-white">Даты проведения олимпиады</div>
+          <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <strong>Школьный этап:</strong> 21 августа - 8 ноября
+              </li>
+              <li class="list-group-item">
+                <strong>Публикация результатов:</strong> 11 ноября
+              </li>
+              <li class="list-group-item">
+                <strong>Заключительный этап:</strong> 10 февраля
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <section>
+          <h1>Название олимпиады: {{ olimpiad }}</h1>
+          <h2>Профиль: {{ olimpiad.baseolimpiadlesson.first.lesson }}</h2>
+          <h3>5 класс 6 класс 7 класс 8 класс <b>9 класс</b> <b>10 класс</b> <b>11 класс</b></h3>
+          <h4>Дополнительная информация: {{ olimpiad.info|richtext }}</h4>
+        </section>
+
+        <section class="mt-4">
+          <h1>Ссылка на САЙТ:</h1>
+          <div class="btn-group" role="group">
+            <a name="schoolEtap" id="schoolEtap" class="btn btn-primary" href="#schoolStageSection" role="button">ШКОЛЬНЫЙ ЭТАП</a>
+            <a name="municipalEtap" id="municipalEtap" class="btn btn-primary" href="#" role="button">МУНИЦИПАЛЬНЫЙ ЭТАП</a>
+            <a name="regionalEtap" id="regionalEtap" class="btn btn-primary" href="#" role="button">РЕГИОНАЛЬНЫЙ ЭТАП</a>
+            <a name="endEtap" id="endEtap" class="btn btn-primary" href="#" role="button">ЗАКЛЮЧИТЕЛЬНЫЙ ЭТАП</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="row mt-5" id="schoolStageSection">
+      <div class="col-md-12">
+        <h2>Школьный этап всероссийской олимпиады школьников</h2>
+        <p>Для школьников 4—11 классов</p>
+        <div class="row text-center">
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/physics.png' %}" alt="Физика" class="img-fluid" />
+            <h5>ФИЗИКА</h5>
+            <p>
+              30 СЕНТЯБРЯ<br />7—11 классы
+            </p>
+          </div>
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/chemistry.png' %}" alt="Химия" class="img-fluid" />
+            <h5>ХИМИЯ</h5>
+            <p>
+              7 ОКТЯБРЯ<br />7—11 классы
+            </p>
+          </div>
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/astronomy.png' %}" alt="Астрономия" class="img-fluid" />
+            <h5>АСТРОНОМИЯ</h5>
+            <p>
+              11 ОКТЯБРЯ<br />5—11 классы
+            </p>
+          </div>
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/biology.png' %}" alt="Биология" class="img-fluid" />
+            <h5>БИОЛОГИЯ</h5>
+            <p>
+              14 ОКТЯБРЯ<br />5—11 классы
+            </p>
+          </div>
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/maths.png' %}" alt="Математика" class="img-fluid" />
+            <h5>МАТЕМАТИКА</h5>
+            <p>
+              21 ОКТЯБРЯ<br />4—11 классы
+            </p>
+          </div>
+          <div class="col-md-2">
+            <img src="{% static 'images/subjects/computer-science.png' %}" alt="Информатика" class="img-fluid" />
+            <h5>ИНФОРМАТИКА</h5>
+            <p>
+              28 ОКТЯБРЯ<br />5—11 классы
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h2>Локации проведения</h2>
+        <div id="map" style="width: 600px; height: 400px"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/olimpiad_vsosh.js' %}"></script>
+
+{% endblock %}
