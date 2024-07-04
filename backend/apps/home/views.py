@@ -222,7 +222,7 @@ class OlimpiadsView(LoginRequiredMixin, ListView):
 
 
 class OlimpiadView(LoginRequiredMixin, TemplateView):
-    template_name = 'home/olimpiad_vsosh.html'
+    template_name = 'home/olimpiad.html'
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         olimpiad = Olimpiad.objects.get(pk=self.kwargs['pk'])
