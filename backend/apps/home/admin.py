@@ -2,8 +2,12 @@ from wagtail_modeladmin.options import (
     ModelAdmin, modeladmin_register, ModelAdminGroup
 )
 
+from apps.auth_app.models import (
+    City,
+)
+
 from .models import (
-    City, Lesson, Olimpiad, SoftSkill, SoftSkillTest
+    Lesson, Olimpiad, SoftSkill, SoftSkillTest
 )
 
 from .filters import (

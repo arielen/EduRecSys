@@ -1,12 +1,11 @@
-from typing import Any
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
-from apps.home.models import (
-    StudentProfile, City, School
-)
+from typing import Any
+
+from .models import StudentProfile, City, School
 
 
 class SignUpForm(UserCreationForm):
