@@ -26,8 +26,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    "home.apps.HomeAppConfig",
-    "search",
+    "apps.home.apps.HomeAppConfig",
+    "apps.search.apps.SearchAppConfig",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     'wagtail_modeladmin',
@@ -206,7 +206,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'home.settings.EmailBackend'  # логика для входа по email
+    'apps.home.settings.EmailBackend'  # логика для входа по email
 ]
 
 SECURE_SSL_REDIRECT = False
