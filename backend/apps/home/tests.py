@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from home.forms import ProfileEditForm
-from home.models import StudentProfile, Olimpiad, Lesson, Mark
+from apps.home.forms import ProfileEditForm
+from apps.home.models import StudentProfile, Olimpiad, Lesson, Mark
 
 
 class HomeViewTests(TestCase):
