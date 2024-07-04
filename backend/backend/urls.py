@@ -14,6 +14,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from apps.search import views as search_views
 from apps.home import views as home_views
+from apps.auth_app import views as auth_views
 
 urlpatterns = [
     # Django
@@ -58,7 +59,7 @@ urlpatterns = [
 
     # Home
     path("", home_views.Home.as_view(), name="home"),
-    path("register/", home_views.RegisterView.as_view(), name="register"),
+    path("register/", auth_views.RegisterView.as_view(), name="register"),
     path("contact/", home_views.Contact.as_view(), name="contact"),
 
     path("test/", home_views.AllTestView.as_view(), name="test-all"),
@@ -68,8 +69,8 @@ urlpatterns = [
     path("olimpiads/<int:pk>/", home_views.OlimpiadView.as_view(),
          name="olimpiad"),
 
-    path("profile/", home_views.ProfileView.as_view(), name="profile"),
-    path("profile/edit/", home_views.ProfileEditView.as_view(),
+    path("profile/", auth_views.ProfileView.as_view(), name="profile"),
+    path("profile/edit/", auth_views.ProfileEditView.as_view(),
          name="profile-edit"),
 
     path("marks/create/", home_views.MarkCreateView.as_view(),
