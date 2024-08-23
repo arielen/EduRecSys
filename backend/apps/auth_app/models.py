@@ -69,8 +69,13 @@ class StudentProfile(models.Model):
         City, on_delete=models.CASCADE, verbose_name='Город',
         blank=True, null=True
     )
-    school = models.ForeignKey(
-        School, on_delete=models.CASCADE, verbose_name='Школа',
+    # Waiting changes for school
+    # school = models.ForeignKey(
+    #     School, on_delete=models.CASCADE, verbose_name='Школа',
+    #     blank=True, null=True
+    # )
+    school = models.CharField(
+        max_length=50, verbose_name='Школа',
         blank=True, null=True
     )
     classNumber = models.IntegerField(

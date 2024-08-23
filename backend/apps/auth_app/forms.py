@@ -47,11 +47,17 @@ class SignUpForm(UserCreationForm):
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'}),
     )
-    school = forms.ModelChoiceField(
-        empty_label="Выберите школу",
-        queryset=School.objects.all(),
+    # school = forms.ModelChoiceField(
+    #     empty_label="Выберите школу",
+    #     queryset=School.objects.all(),
+    #     required=False,
+    #     widget=forms.Select(attrs={'class': 'form-control'}),
+    # )
+    school = forms.CharField(
+        label='Школа',
+        max_length=50,
         required=False,
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     classNumber = forms.ChoiceField(
         help_text='Выберите класс',
@@ -180,11 +186,17 @@ class ProfileEditForm(UserChangeForm):
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'}),
     )
-    school = forms.ModelChoiceField(
-        empty_label="Выберите школу",
-        queryset=School.objects.all(),
+    # school = forms.ModelChoiceField(
+    #     empty_label="Выберите школу",
+    #     queryset=School.objects.all(),
+    #     required=False,
+    #     widget=forms.Select(attrs={'class': 'form-control'}),
+    # )
+    school = forms.CharField(
+        label='Школа',
+        max_length=50,
         required=False,
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     classNumber = forms.ChoiceField(
         help_text='Выберите класс',
