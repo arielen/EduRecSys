@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
+from django.utils.timezone import now
 
 from typing import Any
 
@@ -64,11 +65,13 @@ class SignUpForm(UserCreationForm):
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
-    startYear = forms.DateField(
+    startYear = forms.IntegerField(
         label='Год начала обучения',
         help_text='Выберите год начала обучения',
         required=False,
-        widget=forms.DateInput(
+        max_value=now().year - 6,
+        min_value=1960,
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Укажите год начала обучения'
@@ -195,11 +198,13 @@ class ProfileEditForm(UserChangeForm):
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
-    startYear = forms.DateField(
+    startYear = forms.IntegerField(
         label='Год начала обучения',
         help_text='Выберите год начала обучения',
         required=False,
-        widget=forms.DateInput(
+        max_value=now().year - 6,
+        min_value=1960,
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Укажите год начала обучения'
