@@ -10,12 +10,17 @@ from wagtail.models import Page, ClusterableModel
 from apps.auth_app.models import StudentProfile
 
 
+def icon_path(instance: 'Lesson', filename: str) -> str:
+    return "lesson_icons/{0}/{1}".format(instance.lessonName, filename)
+
+
 class Lesson(models.Model):
     """
     Модель для хранения информации о дисциплине.
 
     Fields:
         lessonName: Наименование дисциплины.
+        icon: Иконка дисциплины.
     """
     class Meta:
         verbose_name = "Дисциплина"
@@ -23,6 +28,9 @@ class Lesson(models.Model):
 
     lessonName = models.CharField(
         max_length=50, verbose_name='Наименование дисциплины', unique=True
+    )
+    icon = models.ImageField(
+        verbose_name='Иконка', upload_to=icon_path, blank=True, null=True
     )
 
     def __str__(self) -> str:

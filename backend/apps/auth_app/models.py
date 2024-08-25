@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
+from django.utils.timezone import now
 
 
 class City(models.Model):
@@ -45,6 +47,15 @@ def student_profile_photo(instance: 'StudentProfile', filename: str) -> str:
     return "student_profile/{0}/{1}".format(instance.user.username, filename)
 
 
+def validate_start_year(value):
+    current_year = now().year
+    if not (1960 <= value <= current_year - 6):
+        raise ValidationError(
+            'Год начала обучения должен быть не ранее 1960 и не позже чем за 6 лет до текущего года.',
+            params={'value': value},
+        )
+
+
 class StudentProfile(models.Model):
     class Meta:
         verbose_name = "Пользователь"
@@ -58,8 +69,13 @@ class StudentProfile(models.Model):
         City, on_delete=models.CASCADE, verbose_name='Город',
         blank=True, null=True
     )
-    school = models.ForeignKey(
-        School, on_delete=models.CASCADE, verbose_name='Школа',
+    # Waiting changes for school
+    # school = models.ForeignKey(
+    #     School, on_delete=models.CASCADE, verbose_name='Школа',
+    #     blank=True, null=True
+    # )
+    school = models.CharField(
+        max_length=50, verbose_name='Школа',
         blank=True, null=True
     )
     classNumber = models.IntegerField(
@@ -79,9 +95,10 @@ class StudentProfile(models.Model):
         max_length=14, verbose_name='СНИЛС', unique=True,
         blank=True, null=True
     )
-    startYear = models.DateField(
+    startYear = models.IntegerField(
         verbose_name='Год начала обучения',
-        blank=True, null=True
+        blank=True, null=True,
+        validators=[validate_start_year]
     )
     photo = models.ImageField(
         upload_to=student_profile_photo, verbose_name='Фото',
