@@ -244,7 +244,7 @@ class Home(TemplateView):
                          for i in range(0, len(olympiads), 3)]
 
         # Fetching data about disciplines
-        disciplines = Lesson.objects.all()
+        disciplines = Lesson.objects.all().order_by('lessonName')
 
         # Fetching data about soft skill tests
         soft_skill_tests = SoftSkillTest.objects.all()

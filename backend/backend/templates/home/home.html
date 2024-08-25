@@ -144,11 +144,19 @@
         {% for discipline in disciplines %}
           <div class="col-md-4 mb-4">
             <div class="card h-100">
-              <div class="card-body">
-                <h5 class="card-title">{{ discipline.lessonName }}</h5>
-                <p class="card-text">{{ discipline.description }}</p>
-                {% comment %} <a href="{% url 'discipline_detail' discipline.slug %}" class="btn btn-primary">{% translate 'Подробнее' %}</a> {% endcomment %}
-                <a href="/" class="btn btn-primary">{% translate 'Подробнее' %}</a>
+              <div class="row">
+                {% if discipline.icon %}
+                  <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="{{ discipline.icon.url }}" class="img-fluid rounded-start" alt="{{ discipline.lessonName }}" style="height: 60%;" />
+                  </div>
+                {% endif %}
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ discipline.lessonName }}</h5>
+                    <p class="card-text">{{ discipline.description }}</p>
+                    <a href="/" class="btn btn-primary">{% translate 'Подробнее' %}</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
